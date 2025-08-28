@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { HeaderBar } from "./components/HeaderBar";
-function App() {
+import { HashRouter } from "react-router-dom";
+import { Router } from "./Router";
 
+function App() {
   return (
     <>
-      <div className="flex flex-col h-screen w-screen">
-        <HeaderBar />
-      </div>
+      <HashRouter>
+        <Router />
+      </HashRouter>
     </>
   );
 }
