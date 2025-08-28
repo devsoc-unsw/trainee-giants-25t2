@@ -17,6 +17,7 @@ export function RedBody() {
         setLikes={setLikes}
         setDislikes={setDislikes}
       />
+      {/* TODO add list of restaurant liked and disliked  */}
   </div>
   );
 }
