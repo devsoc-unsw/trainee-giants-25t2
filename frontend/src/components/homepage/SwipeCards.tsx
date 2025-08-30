@@ -40,7 +40,7 @@ export const SwipeCards: React.FC<SwipeCardsProps> = ({
 
   return (
     <div
-      className="absolute grid z-[1000] top-0 min-h-screen w-full place-items-center"
+      className="grid flex-grow w-full place-items-center"
       style={{
         backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' 
         viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' 
