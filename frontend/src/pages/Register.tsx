@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
   const [email, setEmail] = useState("");
@@ -8,17 +9,13 @@ export function Register() {
     // TODO
     console.log("Registering:", { email, password });
   };
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="h-screen w-screen bg-white flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border">
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="bg-orange-500 rounded-lg p-3 flex items-center justify-center w-16 h-16">
-              <div className="text-white font-bold text-xl">🍴</div>
-            </div>
-            <h1 className="text-orange-500 text-2xl font-bold ml-3 self-center">When2Eat</h1>
-          </div>
+          <h1 className="text-orange-500 text-2xl font-bold ml-3 self-center">When2Eat</h1>
           <h2 className="text-2xl font-semibold text-gray-800">Register an account</h2>
         </div>
 
@@ -30,7 +27,7 @@ export function Register() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-400"
+              className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
             />
           </div>
 
@@ -41,13 +38,13 @@ export function Register() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-400"
+              className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
             />
           </div>
 
           <button
             onClick={handleRegister}
-            className="w-full bg-gray-800 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+            className="w-full bg-black text-white py-3 rounded-lg font-medium"
           >
             Register
           </button>
@@ -55,7 +52,8 @@ export function Register() {
 
         <div className="mt-6 text-center">
           <button
-            className="text-orange-500 hover:text-orange-600 font-medium"
+            className="text-white font-medium"
+            onClick={() => navigate('/')}
           >
             ← Back to Home
           </button>
