@@ -10,6 +10,7 @@ services:
     command: npm run dev 
     environment:
       - GEOAPIFY_KEY=${GEOAPIFY_KEY}
+      - MONGO_URI=${MONGO_URI}
 
   frontend:
     build: ./frontend
