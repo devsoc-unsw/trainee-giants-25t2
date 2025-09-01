@@ -36,6 +36,7 @@ export const SwipeCards: React.FC<SwipeCardsProps> = ({
     setCards(transformed);
   }, [places]);
 
+  // MAKE LOADING HANDLER LATER
   if (isLoading) return <p>Loading...</p>;
 
   return (

@@ -2,6 +2,7 @@ import { SwipeCards } from "./homepage/SwipeCards";
 import type { GeoData } from "./homepage/types";
 import { useState } from "react";
 
+
 export function RedBody() {
   const [likes, setLikes] = useState<GeoData[]>([]);
   const [dislikes, setDislikes] = useState<GeoData[]>([]);

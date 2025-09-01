@@ -16,7 +16,7 @@ app.get('/', (_req, res) => {
   res.send('test!');
 });
 
-app.use("/api/places", placesRouter);
+app.use("/api/places", placesRouter); // calls the route
 
 app.listen(PORT, () => {
   console.log(`what2eat backend running at http://localhost:${PORT}`);
