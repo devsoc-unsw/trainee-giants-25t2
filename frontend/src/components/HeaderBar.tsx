@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function HeaderBar() {
   const navigate = useNavigate();
-
+  
   return (
     <div>
       <div className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-[65px] px-20">
