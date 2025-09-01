@@ -10,3 +10,7 @@ Accessing the repo
   - ```git init```
   - ```npm i```
   - ```npm run dev```
+
+## Both
+  - ```docker compose up --build```
+  - ```docker compose down```
