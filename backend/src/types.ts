@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface User {
-     _id: ObjectId;
+    _id: ObjectId;
     userId: string;
     googleId: string;
     email: string;
@@ -39,7 +39,7 @@ export interface Event {
     // Show based on the availability on the fe ui
     recommendedPlaces: [
         {
-            availabilityId: string; 
+            availabilityId: string;
             foodPlaceId: string;
             votes: string;
         }
@@ -58,13 +58,13 @@ export interface FoodSpot {
 }
 
 export interface Place {
-  name: string;
-  rating: number | string;
-  address: string;
-  photoUrl?: string;
-  website?: string;
-  phone?: string;
-  priceLevel?: number | string;
-  placeId: string;
-  googleMapsUrl: string;
+    name: string;
+    rating: number | string;
+    address: string;
+    photoUrl?: string;
+    website?: string;
+    phone?: string;
+    priceLevel?: number | string;
+    placeId: string;
+    googleMapsUrl: string;
 }
