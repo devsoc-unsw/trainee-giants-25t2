@@ -9,7 +9,7 @@ services:
       - /app/node_modules
     command: npm run dev 
     environment:
-      - GEOAPIFY_KEY=${GEOAPIFY_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - MONGO_URI=${MONGO_URI}
 
   frontend:

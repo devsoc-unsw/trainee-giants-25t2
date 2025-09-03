@@ -1,21 +1,20 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import type { Dispatch, SetStateAction } from "react";
 import { useState, useEffect } from "react";
-import type { SpotData, GeoData } from "./types";
+import type { SpotData } from "./types";
 
 interface CardProps extends SpotData {
   index: number;
   cards: SpotData[];
   setCards: Dispatch<SetStateAction<SpotData[]>>;
-  setLikes: Dispatch<SetStateAction<GeoData[]>>;
-  setDislikes: Dispatch<SetStateAction<GeoData[]>>;
+  setLikes: Dispatch<SetStateAction<string[]>>;
+  setDislikes: Dispatch<SetStateAction<string[]>>;
 }
 
 export const Card: React.FC<CardProps> = ({
   id,
   name,
   imageUrl,
-  lngLat,
   cards,
   index,
   setCards,
@@ -53,8 +52,8 @@ export const Card: React.FC<CardProps> = ({
 
   const processSwipe = (direction: "like" | "dislike") => {
     setCards((prev) => prev.filter((v) => v.id !== id));
-    if (direction === "like") setLikes((prev) => [...prev, { lngLat }]);
-    else setDislikes((prev) => [...prev, { lngLat }]);
+    if (direction === "like") setLikes((prev) => [...prev, name]);
+    else setDislikes((prev) => [...prev, name]);
   };
 
   useEffect(() => {
@@ -66,7 +65,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <motion.div
-      className="h-[650px] w-1/3 origin-bottom rounded-xl border-black shadow-2xl bg-white relative
+      className="h-[650px] w-1/3 origin-bottom rounded-xl border-black bg-white relative
       hover:cursor-grab active:cursor-grabbing flex flex-col text-3xl"
       variants={{
         normal: {
