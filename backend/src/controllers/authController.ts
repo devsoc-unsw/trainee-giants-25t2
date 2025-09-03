@@ -35,7 +35,7 @@ export async function login(req: Request, res: Response) {
     const parsed = registerSchema.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ error: "Invalid Input" });
 
-    const { email, password, name } = parsed.data;
+    const { email, password } = parsed.data;
 
     const user = await findUserByEmail(email);
     if (!user) return res.status(401).json({ error: "Invalid Credentials" });
@@ -79,4 +79,5 @@ export async function refresh(req: Request, res: Response) {
 export async function logout(_req: Request, res: Response) {
     res.clearCookie("access_token", { path: "/" });
     res.clearCookie("refresh_token", { path: "/api/auth/refresh" });
+    return res.status(204).end();
 }
