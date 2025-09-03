@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { email, z } from "zod";
 import type { Request, Response } from "express";
-import { createUser, findUserByEmail, verifyPassword } from "../services/userServices";
+import { createUser, findUserByEmail, findUserById, verifyPassword } from "../services/userServices";
 import { setAuthCookies, signAccessToken, signRefreshToken, verifyAccess, verifyRefresh } from "../services/tokenService";
 
 const registerSchema = z.object({
@@ -53,7 +53,10 @@ export async function whoAmI(req: Request, res: Response) {
 
     try {
         const payload = verifyAccess(token);
-        res.json({ user: { userId: payload.sub } });
+        const user = await findUserById(payload.sub);
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        res.json({ user: { userId: user.userId, email: user.email, name: user.name } });
     } catch {
         return res.status(401).json({ error: "Unauthenticated" });
     }

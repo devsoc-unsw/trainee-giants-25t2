@@ -41,7 +41,7 @@ export function HeaderBar() {
             ) : (
               <div className="relative" ref={menuRef}>
                 <button
-                  className="text-md font-semibold hover:text-gray-200 cursor-pointer flex items-center gap-1"
+                  className="text-md font-semibold hover:text-gray-200 cursor-pointer"
                   onClick={() => setOpen((s) => !s)}>
 
                   {user.name}
@@ -56,9 +56,9 @@ export function HeaderBar() {
                 </button>
 
                 {open && (
-                  <div className="absolute right-0 mt-2 w-40 rounded-md border border-white/20 bg-white/10 backdrop-blur-md shadow-lg">
+                  <div className="absolute right-0 mt-2 w-40 rounded-md border border-gray-200 bg-white text-black shadow-lg z-50">
                     <button
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-white/20"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
                       onClick={async () => {
                         setOpen(false);
                         await doLogout();
