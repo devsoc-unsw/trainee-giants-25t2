@@ -51,9 +51,20 @@ export interface EventList {
     eventName: string;
 }
 
-
 // FOR MAP IMPLEMENTATION IF WE HAVE TIME
 export interface FoodSpot {
     latitude: number;
     longitude: number;
+}
+
+export interface Place {
+  name: string;
+  rating: number | string;
+  address: string;
+  photoUrl?: string;
+  website?: string;
+  phone?: string;
+  priceLevel?: number | string;
+  placeId: string;
+  googleMapsUrl: string;
 }

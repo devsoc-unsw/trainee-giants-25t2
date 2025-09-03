@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Card } from "./Card";
-import type { GeoData, SpotData } from "./types";
+import type { SpotData } from "./types";
 import { usePlaces } from "../../hooks/usePlaces";
 
 interface SwipeCardsProps {
   lat: number;
   lon: number;
-  setLikes: React.Dispatch<React.SetStateAction<GeoData[]>>;
-  setDislikes: React.Dispatch<React.SetStateAction<GeoData[]>>;
+  setLikes: React.Dispatch<React.SetStateAction<string[]>>;
+  setDislikes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const SwipeCards: React.FC<SwipeCardsProps> = ({
@@ -23,15 +23,9 @@ export const SwipeCards: React.FC<SwipeCardsProps> = ({
     if (!places) return;
     const transformed: SpotData[] = places.features.map((f: any, idx: number) => ({
       id: idx,
-      name: f.properties.name,
-      imageUrl:
-        f.properties.wiki_and_media?.image ||
-        f.properties.datasource?.raw?.image ||
-        "", // fallback
-      lngLat: {
-        lat: f.geometry.coordinates[1],
-        lng: f.geometry.coordinates[0],
-      },
+      name: f.name,
+      address: f.address,
+      imageUrl: f.photoUrl || "",
     }));
     setCards(transformed);
   }, [places]);
