@@ -3,20 +3,17 @@ import type { Request, Response } from "express";
 import { createUser, findUserByEmail, verifyPassword } from "../services/userServices";
 import { setAuthCookies, signAccessToken, signRefreshToken, verifyAccess, verifyRefresh } from "../services/tokenService";
 
-const credsSchema = z.object({
+const registerSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8)
-});
-
-const registerSchema = credsSchema.extend({
-    name: z.string().min(1)
 });
 
 export async function register(req: Request, res: Response) {
     const parsed = registerSchema.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ error: "Invalid Input" });
 
-    const { email, password, name } = parsed.data;
+    const { email, password } = parsed.data;
+    const name = email.split("@")[0];
 
     const existing = await findUserByEmail(email);
     if (existing) return res.status(409).json({ error: "Email already in use" });
