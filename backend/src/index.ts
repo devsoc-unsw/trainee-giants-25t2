@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 
 import placesRouter from "./routes/places";
 import authRouter from "./routes/authRoutes"
+import { connectMongo } from './db';
+import { ensureUserIndexs } from './services/userServices';
 
 const app = express();
 const PORT = 3000;
@@ -19,9 +21,20 @@ app.get('/', (_req, res) => {
   res.send('test!');
 });
 
-app.use("/api/places", placesRouter); // calls the route
-app.use("/api/auth", authRouter)
+(async () => {
+  await connectMongo();
+  await ensureUserIndexs();
 
-app.listen(PORT, () => {
-  console.log(`what2eat backend running at http://localhost:${PORT}`);
+  app.use("/api/places", placesRouter); // calls the route
+  app.use("/api/auth", authRouter)
+
+  app.listen(PORT, () => {
+    console.log(`what2eat backend running at http://localhost:${PORT}`);
+  });
+})().catch(err => {
+  console.error("Fatal startup error:", err);
+  process.exit(1);
 });
+
+
+

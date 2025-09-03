@@ -10,7 +10,7 @@ function usersCollection() {
     return db.collection<User>("users");
 }
 
-export async function exportUserIndexs() {
+export async function ensureUserIndexs() {
     const users = usersCollection();
     await users.createIndex({ email: 1 }, { unique: true });
 }
