@@ -11,13 +11,15 @@ export function HeaderBar() {
             <h1 className="flex text-md font-semibold">When2Eat</h1>
           </div>
           <div className="flex flex-row gap-[100px] mt-4 ">
-            <h1 className="flex text-md font-semibold">Create an event</h1>
-          <h1
-            className="text-md font-semibold hover:text-gray-200 cursor-pointer"
-            onClick={() => navigate("/register")}
-          >
+            <h1 className="flex text-md font-semibold hover:text-gray-200 cursor-pointer"
+             onClick={() => navigate("/create-event")}
+            >Create an event</h1>
+            <h1
+              className="text-md font-semibold hover:text-gray-200 cursor-pointer"
+              onClick={() => navigate("/register")}
+            >
             Register
-          </h1>
+            </h1>
           </div>
         </div>
       </div>
