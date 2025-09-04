@@ -1,15 +1,34 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../hooks/useAuth";
 
 export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleRegister = () => {
-    // TODO
-    console.log("Registering:", { email, password });
-  };
+  const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  async function handleRegister() {
+    setErr(null);
+
+    if (!email || !password) {
+      setErr("Please Fill in email and password");
+    }
+
+    setLoading(true);
+
+    try {
+      await registerUser({ email, password });
+      navigate("/");
+    } catch (e: any) {
+      const message = e?.response?.data?.error || e?.message || "Registration Failed. Please try again.";
+      setErr(message);
+    } finally {
+      setLoading(false);
+    }
+
+  };
 
   return (
     <div className="h-screen w-screen bg-white flex items-center justify-center">
@@ -17,6 +36,14 @@ export function Register() {
         <div className="text-center mb-8">
           <h1 className="text-orange-500 text-2xl font-bold ml-3 self-center">When2Eat</h1>
           <h2 className="text-2xl font-semibold text-gray-800">Register an account</h2>
+        </div>
+
+        <div className="space-y-6">
+          {err && (
+            <div className="p-3 rounded bg-red-50 border border-red-200 test-red-700 text-sm">
+              {err}
+            </div>
+          )}
         </div>
 
         <div className="space-y-6">
@@ -44,10 +71,23 @@ export function Register() {
 
           <button
             onClick={handleRegister}
-            className="w-full bg-black text-white py-3 rounded-lg font-medium"
+            disabled={loading}
+            className="w-full bg-black text-white py-3 rounded-lg font-medium disabled:opacity-50"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
+        </div>
+
+        <div className="pt-2">
+          <p className="text-center text-gray-600 text-sm">
+            Already have an account?{" "}
+            <button
+              className="text-orange-500 font-medium hover:underline"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+          </p>
         </div>
 
         <div className="mt-6 text-center">
