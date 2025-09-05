@@ -39,6 +39,7 @@ export function RedBody() {
         <div className="flex flex-row gap-10">
           <SwipeCards
             places={places} // pass data down
+            likes={likes}
             setLikes={setLikes}
             setDislikes={setDislikes}
           />
