@@ -6,16 +6,20 @@ const api = axios.create({
   withCredentials: true,
 });
 
+let isRefreshing = false;
 api.interceptors.response.use((res) => res,
   async (err) => {
     const original = err.config;
-    if (err.response?.status == 401 && !original._retry) {
+    if (err.response?.status == 401 && !original._retry && !isRefreshing) {
+      isRefreshing = true;
       original._retry = true;
 
       try {
         await api.post("/auth/refresh");
+        isRefreshing = false;
         return api(original);
       } catch (e) {
+        isRefreshing = false;
         return Promise.reject(e);
       }
     }

@@ -6,7 +6,6 @@ export type UserPayload = {
     password: string;
 };
 
-
 async function fetchUser() {
     const { data } = await api.get("/auth/whoami");
     return data.user as { userId: string; email: string; name: string };
@@ -19,7 +18,6 @@ export function useUser() {
         retry: false,
     });
 }
-
 
 export async function registerUser(payload: UserPayload) {
     const { data } = await api.post("/auth/register", payload);

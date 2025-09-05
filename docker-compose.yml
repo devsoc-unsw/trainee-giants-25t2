@@ -6,7 +6,6 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/app
-      - /app/node_modules
     command: npm run dev 
     environment:
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
