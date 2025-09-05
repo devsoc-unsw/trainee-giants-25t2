@@ -67,9 +67,13 @@ export async function refresh(req: Request, res: Response) {
     if (!token) return res.status(401).json({ error: "No Refresh Token" });
 
     try {
+        // to do validate refresh token in a db
         const payload = verifyRefresh(token);
         const access = signAccessToken(payload.sub);
-        setAuthCookies(res, access);
+        // when a refresh happens, it should get a new token
+        // and reset the new timer
+        const newRefresh = signRefreshToken(payload.sub);
+        setAuthCookies(res, access, newRefresh);
         res.json({ ok: true });
     } catch {
         return res.status(401).json({ error: "Invalid Refresh Token" });

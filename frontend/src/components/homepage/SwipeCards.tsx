@@ -1,41 +1,36 @@
 import { useState, useEffect } from "react";
 import { Card } from "./Card";
 import type { SpotData } from "./types";
-import { usePlaces } from "../../hooks/usePlaces";
 
 interface SwipeCardsProps {
-  lat: number;
-  lon: number;
+  places: any; // from usePlaces
   setLikes: React.Dispatch<React.SetStateAction<string[]>>;
   setDislikes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const SwipeCards: React.FC<SwipeCardsProps> = ({
-  lat,
-  lon,
+  places,
   setLikes,
   setDislikes,
 }) => {
-  const { data: places, isLoading } = usePlaces(lat, lon);
   const [cards, setCards] = useState<SpotData[]>([]);
 
   useEffect(() => {
     if (!places) return;
-    const transformed: SpotData[] = places.features.map((f: any, idx: number) => ({
-      id: idx,
+    const transformed: SpotData[] = places.features.map((f: any) => ({
+      id: f.place_id,
       name: f.name,
       address: f.address,
       imageUrl: f.photoUrl || "",
+      rating: f.rating || 0,
+      priceLevel: f.price_level,
     }));
     setCards(transformed);
   }, [places]);
 
-  // MAKE LOADING HANDLER LATER
-  if (isLoading) return <p>Loading...</p>;
-
   return (
     <div
-      className="grid flex-grow w-full place-items-center"
+      className="grid flex-grow w-full justify-center"
       style={{
         backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' 
         viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' 
