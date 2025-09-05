@@ -7,12 +7,15 @@ const api = axios.create({
 });
 
 let isRefreshing = false;
+
 api.interceptors.response.use((res) => res,
   async (err) => {
     const original = err.config;
-    if (err.response?.status == 401 && !original._retry && !isRefreshing) {
+    if (err.response?.status === 401 && 
+        !isRefreshing && 
+        !original.url?.includes('/auth/refresh')) { 
+      
       isRefreshing = true;
-      original._retry = true;
 
       try {
         await api.post("/auth/refresh");

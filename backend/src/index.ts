@@ -22,8 +22,8 @@ app.get('/', (_req, res) => {
 });
 
 (async () => {
-  // await connectMongo();
-  // await ensureUserIndexs();
+  await connectMongo();
+  await ensureUserIndexs();
 
   app.use("/api/places", placesRouter); // calls the route
   app.use("/api/auth", authRouter)
