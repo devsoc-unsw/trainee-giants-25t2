@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "./Card";
 import type { SpotData } from "./types";
 
@@ -13,20 +13,18 @@ export const SwipeCards: React.FC<SwipeCardsProps> = ({
   setLikes,
   setDislikes,
 }) => {
-  const [cards, setCards] = useState<SpotData[]>([]);
 
-  useEffect(() => {
-    if (!places) return;
-    const transformed: SpotData[] = places.features.map((f: any) => ({
-      id: f.place_id,
+  const [cards, setCards] = useState<SpotData[]>(() => {
+    if (!places) return [];
+    return places.features.map((f: any) => ({
+      id: f.placeId,
       name: f.name,
       address: f.address,
       imageUrl: f.photoUrl || "",
       rating: f.rating || 0,
       priceLevel: f.price_level,
     }));
-    setCards(transformed);
-  }, [places]);
+  });
 
   return (
     <div
