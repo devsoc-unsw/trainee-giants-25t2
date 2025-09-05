@@ -26,25 +26,21 @@ export function HeaderBar() {
   return (
     <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-[65px] px-20 relative overflow-visible z-40">
       <div className="h-full flex items-center justify-between text-white">
-        <div className="flex items-center gap-48">
-          <h1 className="text-xl font-semibold">When2Eat</h1>
-        </div>
-
-        <div className="flex items-center gap-24">
+        <h1 className="text-2xl font-bold tracking-tight">When2Eat</h1>
+        <div className="flex items-center gap-6">
           <h1 className="text-base md:text-lg font-semibold">Create an event</h1>
-
           {!user ? (
-            <button
-              className="text-base md:text-lg font-semibold text-white hover:text-gray-200"
+            <div
+              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
               onClick={() => navigate("/register")}
             >
               Register
-            </button>
+            </div>
           ) : (
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setOpen(s => !s)}
-                className="text-base md:text-lg font-semibold text-white hover:text-gray-200 px-3 py-1 rounded-full border border-white/30 bg-white/10 backdrop-blur whitespace-nowrap"
+                className="text-base md:text-lg font-semibold text-white hover:text-gray-200 px-3 py-1 rounded-xl border border-white/30 bg-white/10 backdrop-blur whitespace-nowrap"
               >
                 {capital(user.name)}
               </button>

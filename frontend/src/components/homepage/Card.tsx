@@ -16,6 +16,9 @@ export const Card: React.FC<CardProps> = ({
   name,
   imageUrl,
   cards,
+  rating,
+  // priceLevel,
+  address,
   index,
   setCards,
   setLikes,
@@ -26,15 +29,15 @@ export const Card: React.FC<CardProps> = ({
 
   const rotateRaw = useTransform(x, [-250, 250], [-18, 18]);
   const opacity = useTransform(x, [-250, 0, 250], [0, 2, 0]);
-  const backgroundColor = useTransform(
-    x,
-    [-100, 0, 100],
-    [
-      "oklch(0.808 0.114 17.571)",
-      "oklch(1 0 0)", 
-      "oklch(0.871 0.15 144.449)",
-    ]
-  );
+  // const backgroundColor = useTransform(
+  //   x,
+  //   [-100, 0, 100],
+  //   [
+  //     "oklch(0.808 0.114 17.571)",
+  //     "oklch(1 0 0)", 
+  //     "oklch(0.871 0.15 144.449)",
+  //   ]
+  // );
 
   const isFront = index === cards.length - 1;
   const rotate = useTransform(() => {
@@ -65,8 +68,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <motion.div
-      className="h-[650px] w-1/3 origin-bottom rounded-xl border-black bg-white relative
-      hover:cursor-grab active:cursor-grabbing flex flex-col text-3xl"
+      className="bg-white rounded-2xl overflow-hidden transition-all duration-300 cursor-grab active:cursor-grabbing select-none w-[500px] h-[550px]"
       variants={{
         normal: {
           x: 0,
@@ -89,7 +91,6 @@ export const Card: React.FC<CardProps> = ({
         x,
         opacity,
         rotate,
-        backgroundColor,
         zIndex: index,
         transition: "0.125s transform",
         boxShadow: isFront
@@ -104,29 +105,48 @@ export const Card: React.FC<CardProps> = ({
       }}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex flex-col items-center mt-10 font-semibold text-2xl text-black">
-        <p>{name}</p>
-      </div>
-      <div className="m-2">
+       <div className="relative h-64 overflow-hidden">
         <img
-          alt={name}
           src={imageUrl}
-          className="w-[400px] h-[400px] object-cover mx-auto my-8 pointer-events-none rounded-md"
+          alt={name}
+          className="w-full h-full object-cover"
+          draggable={false}
         />
+        {rating > 0 && (
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
+            ⭐ <span className="font-medium text-gray-800">{rating}</span>
+          </div>
+        )}
       </div>
-      <div className="flex">
-        <button
-          className="w-1/2 bg-red-300 shadow-xl p-4 rounded-lg"
-          onClick={() => setLikeStatus("dislike")}
-        >
-          👎
-        </button>
-        <button
-          className="w-1/2 bg-green-300 p-4 rounded-lg shadow-xl"
-          onClick={() => setLikeStatus("like")}
-        >
-          👍
-        </button>
+      <div className="p-6 flex flex-col h-[calc(100%-16rem)]">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <h3 className="text-xl font-bold text-gray-800 mb-1">{name}</h3>
+            <p className="text-sm text-gray-600">{address}</p>
+          </div>
+          {/* <div className="text-right">
+            {priceLevel && (
+              <div className="text-sm text-gray-600">
+                {"$".repeat(priceLevel)}
+              </div>
+            )}
+          </div> */}
+        </div>
+
+        <div className="flex gap-4 mt-auto">
+          <button
+            onClick={() => setLikeStatus("dislike")}
+            className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
+          >
+            👎 Pass
+          </button>
+          <button
+            onClick={() => setLikeStatus("like")}
+            className="flex-1 bg-green-100 hover:bg-green-200 text-green-600 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
+          >
+            👍 Like      
+          </button>
+        </div>
       </div>
     </motion.div>
   );
