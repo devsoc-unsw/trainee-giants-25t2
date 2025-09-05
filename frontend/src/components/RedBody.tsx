@@ -48,11 +48,11 @@ export function RedBody() {
         </div>
         )}
       </div>
-      <button
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white font-bold rounded-md w-[200px]"
+      <div
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer"
       >
         Continue
-      </button>
+      </div>
     </div>
   );
 }
