@@ -13,7 +13,6 @@ export function RedBody() {
   const lon = 151.2093;
 
   const { data: places, isLoading } = usePlaces(lat, lon);
-
   return (
     <div className="bg-white w-full flex flex-grow relative">
       <div className="flex flex-col items-center w-full mt-[35px]">
@@ -34,29 +33,26 @@ export function RedBody() {
             Swipe right to add to your list, left to pass
           </motion.p>
         </div>
-
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
         <div className="flex flex-row gap-10">
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-          <div className="flex flex-row gap-10">
-            <SwipeCards
-              places={places} // pass data down
-              setLikes={setLikes}
-              setDislikes={setDislikes}
-            />
-            <SelectedRestaurants
-              likes={likes}
-            />
-          </div>
-          )}
+          <SwipeCards
+            places={places} // pass data down
+            setLikes={setLikes}
+            setDislikes={setDislikes}
+          />
+          <SelectedRestaurants
+            likes={likes}
+          />
         </div>
+        )}
       </div>
-      <button
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white font-bold rounded-md w-[200px]"
+      <div
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer"
       >
         Continue
-      </button>
+      </div>
     </div>
   );
 }
