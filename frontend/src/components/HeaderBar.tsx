@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useLogout, useUser } from '../hooks/useAuth';
 import { useEffect, useRef, useState } from 'react';
+import { LoginRequiredModal } from './homepage/LoginRequiredModal';
 
 const capital = (s: string) => s ? s[0].toUpperCase() + s.slice(1) : s;
 
@@ -28,10 +29,13 @@ export function HeaderBar() {
       <div className="h-full flex items-center justify-between text-white">
         <h1 className="text-2xl font-bold tracking-tight">When2Eat</h1>
         <div className="flex items-center gap-6">
-          <h1 className="text-base md:text-lg font-semibold">Create an event</h1>
+          <LoginRequiredModal
+            buttonText="Create an event"
+            buttonClassName="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
+          />
           {!user ? (
             <div
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
+              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
               onClick={() => navigate("/register")}
             >
               Register

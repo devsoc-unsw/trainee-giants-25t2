@@ -17,12 +17,12 @@ export function LoginRequiredModal({ buttonText, buttonClassName } : LoginRequir
   return (
     <div>
       {/* Button */}
-      <button
+      <div
         onClick={() => setIsOpen(true)}
-        className={buttonClassName}
+        className={`${buttonClassName}`}
       >
         {buttonText}
-      </button>
+      </div>
 
       {/* Modal */}
       {isOpen && (
@@ -41,18 +41,18 @@ export function LoginRequiredModal({ buttonText, buttonClassName } : LoginRequir
               You must be logged in to use this feature.
             </p>
             <div className="flex justify-center gap-3">
-              <button
+              <div
                 onClick={redirectToLogin}
-                className="px-4 py-2 rounded-md bg-[#E98657] text-white font-semibold"
+                className="px-4 py-2 rounded-md bg-[#E98657] text-white hover:bg-orange-500 font-semibold focus:outline-none"
               >
                 Log in
-              </button>
-              <button
+              </div>
+              <div
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 rounded-md border border-gray-300"
+                className="bg-gray-700 px-4 py-2 rounded-md font-semibold border border-gray-300 hover:bg-gray-900 focus:outline-none"
               >
                 Maybe later
-              </button>
+              </div>
             </div>
           </div>
         </div>
