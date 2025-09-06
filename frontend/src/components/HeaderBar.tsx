@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useLogout, useUser } from '../hooks/useAuth';
 import { useEffect, useRef, useState } from 'react';
+import { LoginRequiredModal } from './homepage/LoginRequiredModal';
 
 const capital = (s: string) => s ? s[0].toUpperCase() + s.slice(1) : s;
 
@@ -28,22 +29,25 @@ export function HeaderBar() {
       <div className="h-full flex items-center justify-between text-white">
         <h1 className="text-2xl font-bold tracking-tight">When2Eat</h1>
         <div className="flex items-center gap-6">
-          <h1 className="text-base md:text-lg font-semibold">Create an event</h1>
+          <LoginRequiredModal
+            buttonText="Create an event"
+            buttonClassName="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
+          />
           {!user ? (
             <div
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
+              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
               onClick={() => navigate("/register")}
             >
               Register
             </div>
           ) : (
             <div className="relative" ref={menuRef}>
-              <button
+              <div
                 onClick={() => setOpen(s => !s)}
-                className="text-base md:text-lg font-semibold text-white hover:text-gray-200 px-3 py-1 rounded-xl border border-white/30 bg-white/10 backdrop-blur whitespace-nowrap"
+                className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
               >
                 {capital(user.name)}
-              </button>
+              </div>
 
               {open && (
                 <div className="absolute right-0 top-full mt-2 min-w-44 rounded-md bg-gradient-to-r from-[#F4975C] to-[#999999] text-white shadow-lg z-50">
