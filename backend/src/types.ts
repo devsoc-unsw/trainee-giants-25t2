@@ -68,6 +68,7 @@ export interface Place {
     priceLevel?: number | string;
     placeId: string;
     googleMapsUrl: string;
+    dist?: number;
 
     location?: {
         type: "Point";
