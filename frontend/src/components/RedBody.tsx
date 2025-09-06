@@ -12,7 +12,7 @@ export function RedBody() {
   const lat = -33.8688;
   const lon = 151.2093;
 
-  const { data: places, isLoading } = usePlaces(lat, lon);
+  // const { data: places, isLoading } = usePlaces(lat, lon);
   return (
     <div className="bg-white w-full flex flex-grow relative">
       <div className="flex flex-col items-center w-full mt-[35px]">
@@ -33,7 +33,7 @@ export function RedBody() {
             Swipe right to add to your list, left to pass
           </motion.p>
         </div>
-        {isLoading ? (
+        {/* {isLoading ? (
           <LoadingSpinner />
         ) : (
         <div className="flex flex-row gap-10">
@@ -47,7 +47,7 @@ export function RedBody() {
             likes={likes}
           />
         </div>
-        )}
+        )} */}
       </div>
       <div
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer"
