@@ -4,6 +4,7 @@ import { usePlaces } from "../hooks/usePlaces";
 import { LoadingSpinner } from "./homepage/Loading";
 import { SelectedRestaurants } from "./homepage/RestaurantList";
 import { motion } from "framer-motion";
+import { LoginRequiredModal } from "./homepage/LoginRequiredModal";
 
 export function RedBody() {
   const [likes, setLikes] = useState<string[]>([]);
@@ -49,11 +50,10 @@ export function RedBody() {
         </div>
         )}
       </div>
-      <div
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer"
-      >
-        Continue
-      </div>
+      <LoginRequiredModal
+        buttonText="Continue"
+        buttonClassName="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer hover:bg-orange-500"
+      />
     </div>
   );
 }
