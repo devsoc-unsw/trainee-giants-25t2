@@ -69,14 +69,15 @@ export const getPlaces = async (
 		throw new Error("Invalid coordinates")
 	}
 
-	const nearbyFromDB = await placesCol().find({
-		location: {
-			$near: {
-				$geometry: { type: "Point", coordinates: [lon, lat] },
-				$maxDistance: radius
-			},
+	const nearbyFromDB = await placesCol().aggregate<Place>([{
+		$geoNear: {
+			near: { type: "Point", coordinates: [lon, lat] },
+			distanceField: "dist",
+			maxDistance: radius,
+			spherical: true
 		},
-	}).limit(30).toArray();
+	},
+	{ $sample: { size: 30 } }]).toArray();
 
 	if (nearbyFromDB.length >= 20) {
 		return nearbyFromDB;

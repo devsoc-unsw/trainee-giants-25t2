@@ -38,9 +38,9 @@ export function Login() {
                     <h2 className="text-2xl font-semibold text-gray-800">Log in</h2>
                 </div>
 
-                <div className="space-y-6">
+                <div className="mb-6">
                     {err && (
-                        <div className="p-3 rounded bg-red-50 border border-red-200 test-red-700 text-sm">
+                        <div className="p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
                             {err}
                         </div>
                     )}
@@ -74,7 +74,7 @@ export function Login() {
                         disabled={loading}
                         className="w-full bg-black text-white py-3 rounded-lg font-medium disabled:opacity-50"
                     >
-                        {loading ? "Loging in..." : "Login"}
+                        {loading ? "Logging in..." : "Login"}
                     </button>
                 </div>
 
