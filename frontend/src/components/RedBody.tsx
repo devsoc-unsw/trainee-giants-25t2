@@ -38,12 +38,12 @@ export function RedBody() {
           <LoadingSpinner />
         ) : (
         <div className="flex flex-row gap-10">
-          {/* <SwipeCards
+          <SwipeCards
             places={places} // pass data down
             likes={likes}
             setLikes={setLikes}
             setDislikes={setDislikes}
-          /> */}
+          />
           <SelectedRestaurants
             likes={likes}
           />
