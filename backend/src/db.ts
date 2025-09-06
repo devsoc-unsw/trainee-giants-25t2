@@ -15,3 +15,9 @@ export async function connectMongo() {
     .then(() => console.log("Connected to MongoDB"))
     .catch((err: any) => console.error("MongoDB connection error:", err));
 }
+
+export function getDatabase() {
+  const db = mongoose.connection.db;
+  if (!db) throw new Error("Database not connected");
+  return db;
+}

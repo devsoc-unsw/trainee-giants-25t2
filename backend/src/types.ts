@@ -58,6 +58,7 @@ export interface FoodSpot {
 }
 
 export interface Place {
+    _id?: ObjectId;
     name: string;
     rating: number | string;
     address: string;
@@ -67,4 +68,9 @@ export interface Place {
     priceLevel?: number | string;
     placeId: string;
     googleMapsUrl: string;
+
+    location?: {
+        type: "Point";
+        coordinates: [number, number]; // lat, lon
+    };
 }
