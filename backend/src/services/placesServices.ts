@@ -69,11 +69,10 @@ export const getPlaces = async (
 		throw new Error("Invalid coordinates")
 	}
 
-
 	const nearbyFromDB = await placesCol().find({
 		location: {
 			$near: {
-				$geometry: { type: "Point", coordinates: [lat, lon] },
+				$geometry: { type: "Point", coordinates: [lon, lat] },
 				$maxDistance: radius
 			},
 		},
