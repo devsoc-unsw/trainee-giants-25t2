@@ -13,6 +13,13 @@ export interface User {
     eventHistory: EventList[];   // list of past events
 }
 
+// export interface Participant {
+//   participantId: string;   
+//   name: string;
+//   email?: string;          
+//   availability: string[];  
+// }
+
 export interface UserList {
     userId: string;
     name: string;
@@ -25,6 +32,7 @@ export interface UserToken {
 
 export interface Event {
     eventId: string;
+    userId: string; // owner
     eventName: string;
     eventTimeSpan: {
         start: string;
