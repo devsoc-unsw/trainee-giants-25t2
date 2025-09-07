@@ -5,11 +5,14 @@ import { LoadingSpinner } from "./homepage/Loading";
 import { SelectedRestaurants } from "./homepage/RestaurantList";
 import { motion } from "framer-motion";
 import { LoginRequiredModal } from "./homepage/LoginRequiredModal";
+import { useUser } from "../hooks/useAuth";
 
 export function RedBody() {
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
 
+  const { data: user } = useUser();
+  
   const lat = -33.8688;
   const lon = 151.2093;
 
@@ -53,6 +56,7 @@ export function RedBody() {
       <LoginRequiredModal
         buttonText="Continue"
         buttonClassName="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer hover:bg-orange-500"
+        user={user}
       />
     </div>
   );

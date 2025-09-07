@@ -4,11 +4,20 @@ import { useNavigate } from "react-router-dom";
 interface LoginRequiredProps {
   buttonText: string;
   buttonClassName: string;
+  user: any;
 }
 
-export function LoginRequiredModal({ buttonText, buttonClassName } : LoginRequiredProps) {
+export function LoginRequiredModal({ buttonText, buttonClassName, user } : LoginRequiredProps) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (user) {
+      navigate("/create-event");
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   const redirectToLogin = () => {
     navigate("/login");
@@ -18,7 +27,7 @@ export function LoginRequiredModal({ buttonText, buttonClassName } : LoginRequir
     <div>
       {/* Button */}
       <div
-        onClick={() => setIsOpen(true)}
+        onClick={handleClick}
         className={`${buttonClassName}`}
       >
         {buttonText}
