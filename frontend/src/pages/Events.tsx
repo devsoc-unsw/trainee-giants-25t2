@@ -1,9 +1,9 @@
-import { WhiteBody } from '../components/events/Body';
+import { EventViewBody } from '../components/events/EventViewBody';
 
 export function EventsPage() {
   return (
     <div className="flex flex-col h-screen w-screen">
-        <WhiteBody />
+        <EventViewBody />
     </div>
   );
 }
