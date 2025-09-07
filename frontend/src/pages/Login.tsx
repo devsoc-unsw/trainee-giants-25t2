@@ -40,7 +40,7 @@ export function Login() {
 
                 <div className="mb-6">
                     {err && (
-                        <div className="p-3 rounded bg-red-50 border text-black border-red-200 test-red-700 text-sm mb-2">
+                        <div className="p-3 rounded bg-red-50 border text-black border-red-200 text-red-700 text-sm mb-2">
                             {err}
                         </div>
                     )}
