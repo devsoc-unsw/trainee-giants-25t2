@@ -40,7 +40,7 @@ export function Login() {
 
                 <div className="space-y-6">
                     {err && (
-                        <div className="p-3 rounded bg-red-50 border border-red-200 test-red-700 text-sm">
+                        <div className="p-3 rounded bg-red-50 border text-black border-red-200 test-red-700 text-sm mb-2">
                             {err}
                         </div>
                     )}

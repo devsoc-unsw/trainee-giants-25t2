@@ -16,11 +16,11 @@ export function HeaderBar() {
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
-      if (!menuRef.current) return;
-      if (!menuRef.current.contains(e.target as Node)) setOpen(false);
+      if (open && menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
     }
-
-    if (open) document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [open]);
 
@@ -32,6 +32,7 @@ export function HeaderBar() {
           <LoginRequiredModal
             buttonText="Create an event"
             buttonClassName="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
+            user={user}
           />
           {!user ? (
             <div
