@@ -38,9 +38,9 @@ export function Register() {
           <h2 className="text-2xl font-semibold text-gray-800">Register an account</h2>
         </div>
 
-        <div className="space-y-6">
+        <div className="mb-6">
           {err && (
-            <div className="p-3 rounded bg-red-50 border border-red-200 test-red-700 text-sm">
+            <div className="p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
               {err}
             </div>
           )}
