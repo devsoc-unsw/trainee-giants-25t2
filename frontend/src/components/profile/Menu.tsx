@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const capital = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
@@ -26,16 +27,27 @@ export function UserMenu({ name, onLogout }: { name: string; onLogout: () => voi
       </div>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 min-w-44 rounded-md bg-gradient-to-r from-[#F4975C] to-[#999999] text-white shadow-lg z-50">
-          <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-white/20"
+        <div className="absolute right-0 top-full mt-2 w-44 rounded-md bg-white text-black shadow-lg border border-black/20 z-50">
+					<h4 className="flex flex-row items-end text-md px-4 py-2 font-semibold">
+						{capital(name)}
+					</h4>
+          <div
+            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Events
+          </div>
+          <div
+            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             onClick={() => {
               setOpen(false);
               onLogout();
             }}
           >
             Logout
-          </button>
+          </div>
         </div>
       )}
     </div>
