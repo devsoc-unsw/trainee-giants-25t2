@@ -1,8 +1,6 @@
 import axios from "axios";
-import mongoose from "mongoose";
 import { Place } from "../types";
 import { getDatabase } from "../db";
-
 
 function placesCol() {
 	return getDatabase().collection<Place>("places");
@@ -12,7 +10,6 @@ export async function ensurePlacesIndex() {
 	await placesCol().createIndex({ placeId: 1 }, { unique: true });
 	await placesCol().createIndex({ location: "2dsphere" });
 }
-
 
 function buildPlaceDoc(
 	basic: any,
@@ -48,7 +45,6 @@ function buildPlaceDoc(
 
 	return place;
 }
-
 
 export const getPlaces = async (
 	lat: string | number,
