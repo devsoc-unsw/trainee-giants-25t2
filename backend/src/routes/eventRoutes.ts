@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { requireAuth } from "../middleware";
 import { 
   create, 
   edit, 
@@ -24,7 +25,7 @@ const r = Router();
  * return: 
  *   eid (string) - newly created eventId
  */
-r.post("/create", create); 
+r.post("/create", requireAuth, create); 
 
 /**
  * Edit event details (should remove all existing data, like participants
@@ -47,7 +48,7 @@ r.put("/edit", edit)
  * return:
  *   EventList[] - list of events the user is part of
  */
-r.get("/list", list);
+r.get("/list", requireAuth, list);
 
 /**
  * Generate a shareable link or code for inviting users
