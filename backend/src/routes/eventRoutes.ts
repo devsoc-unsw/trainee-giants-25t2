@@ -16,10 +16,11 @@ const r = Router();
  * Create a new event
  * 
  * params: 
+ *   name (string) - name of event
  *   uid (string) - user creating the event
  *   startdate (string, ISO) - event start date range
  *   enddate (string, ISO) - event end date range
- *   foodrecommendation (string[]) - list of food preferences
+ *   foodrecommendation (UserPlace[]) - list of food preferences
  * return: 
  *   eid (string) - newly created eventId
  */

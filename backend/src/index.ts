@@ -8,6 +8,7 @@ import eventRouter from "./routes/eventRoutes"
 import { connectMongo } from './db';
 import { ensureUserIndexs } from './services/userServices';
 import { ensurePlacesIndex } from './services/placesServices';
+import { ensureEventsIndex } from './services/eventServices';
 
 const app = express();
 const PORT = 3000;
@@ -27,10 +28,11 @@ app.get('/', (_req, res) => {
   await connectMongo();
   await ensureUserIndexs();
   await ensurePlacesIndex();
+  await ensureEventsIndex();
 
   app.use("/api/places", placesRouter); // calls the route
   app.use("/api/auth", authRouter)
-  app.use("api/events", eventRouter)
+  app.use("/api/events", eventRouter)
 
   app.listen(PORT, () => {
     console.log(`what2eat backend running at http://localhost:${PORT}`);

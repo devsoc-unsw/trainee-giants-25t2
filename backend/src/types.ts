@@ -45,13 +45,7 @@ export interface Event {
         }
     ]
     // Show based on the availability on the fe ui
-    recommendedPlaces: [
-        {
-            availabilityId: string;
-            foodPlaceId: string;
-            votes: string;
-        }
-    ]
+    recommendedPlaces: UserPlace[];
 }
 
 export interface EventList {
@@ -83,3 +77,16 @@ export interface Place {
         coordinates: [number, number]; // lat, lon
     };
 }
+
+export interface UserPlace {
+    userId: string,
+    likes: string[], // liked resto
+    dislike: string[], // disliked resto
+}
+
+// export interface UserPlaceByParticipant {
+//     participantId: string;
+//     userId?: never;
+//     likes: string[];
+//     dislike: string[];
+// }
