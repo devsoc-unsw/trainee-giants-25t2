@@ -1,7 +1,6 @@
 import { Event, EventList, UserPlace } from "../types";
 import { randomUUID } from "crypto";
 import { getDatabase } from "../db";
-import r from "../routes/authRoutes";
 
 function eventCollection() {
     return getDatabase().collection<Event>("events");
@@ -9,7 +8,8 @@ function eventCollection() {
 
 export async function ensureEventsIndex() {
     await eventCollection().createIndex({ eventId: 1 }, { unique: true });
-    await eventCollection().createIndex({ userId: 1 }, {unique: true});
+    // await eventCollection().createIndex({ userId: 1 }, {unique: true});  // multiple events for the same user?
+    await eventCollection().createIndex({ userId: 1 }, { unique: false });
 }
 
 export async function findEventByEventId(eid: string) {
@@ -22,16 +22,17 @@ export async function findEventByHostId(id: string) {
     return event.findOne({ userId: id });
 }
 
-export async function createEvent(name: string, uid: string, startdate: string, enddate: string, userPlace: UserPlace) {
+export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, userPlace: UserPlace) {
     const events = eventCollection();
 
     const event: Event = {
         eventId: randomUUID(),
-        userId: uid,
+        userId: userPlace.userId,
         eventName: name,
         eventTimeSpan: {
-            start: startdate,
-            end: enddate,
+            dates,
+            dayStart: startTime,
+            dayEnd: endTime,
         },
         availability: [
             {
@@ -39,7 +40,7 @@ export async function createEvent(name: string, uid: string, startdate: string, 
                 times: [],
             }
         ],
-        recommendedPlaces: [userPlace]
+        recommendedPlaces: userPlace.likes
     }
 
     await events.insertOne(event);
@@ -50,6 +51,6 @@ export async function createEvent(name: string, uid: string, startdate: string, 
 export async function listEvent(uid: string) {
     const events = eventCollection();
     const found = await events.find({ userId: uid }).toArray();
-    const eventNames = found.map(event => event.eventName);
+    const eventNames: EventList[] = found.map(event => ({ eventId: event.eventId, eventName: event.eventName }));
     return eventNames;
 }

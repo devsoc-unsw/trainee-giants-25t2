@@ -35,8 +35,11 @@ export interface Event {
     userId: string; // owner
     eventName: string;
     eventTimeSpan: {
-        start: string;
-        end: string;
+        // start: string;
+        // end: string;
+        dates: Date[];
+        dayStart: string;
+        dayEnd: string;
     }
     availability: [
         {
@@ -45,7 +48,8 @@ export interface Event {
         }
     ]
     // Show based on the availability on the fe ui
-    recommendedPlaces: UserPlace[];
+    // recommendedPlaces: UserPlace[];
+    recommendedPlaces: string[]; // change so that only the liked places are stored?
 }
 
 export interface EventList {
