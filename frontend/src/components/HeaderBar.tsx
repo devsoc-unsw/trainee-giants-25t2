@@ -14,7 +14,10 @@ export function HeaderBar() {
   return (
     <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-[65px] px-20 relative overflow-visible z-40">
       <div className="h-full flex items-center justify-between text-white">
-        <h1 className="text-2xl font-bold tracking-tight cursor-pointer" onClick={() => navigate("/")}>When2Eat</h1>
+        <h1 className="text-2xl font-bold tracking-tight cursor-pointer" onClick={() => {
+          navigate("/");
+          window.location.reload();
+        }}>When2Eat</h1>
         <div className="flex items-center gap-6">
           <LoginRequiredModal
             buttonText="Create an event"
