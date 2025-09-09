@@ -35,8 +35,8 @@ export interface Event {
     userId: string; // owner
     eventName: string;
     eventTimeSpan: {
-        start: string;
-        end: string;
+        start: string; // date 
+        end: string; // date
     }
     availability: [
         {
@@ -46,6 +46,7 @@ export interface Event {
     ]
     // Show based on the availability on the fe ui
     recommendedPlaces: UserPlace[];
+    shareId: string;
 }
 
 export interface EventList {

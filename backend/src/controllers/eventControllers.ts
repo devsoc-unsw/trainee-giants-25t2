@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createEvent, listEvent } from "../services/eventServices";
+import { createEvent, generateUrl, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
@@ -31,7 +31,17 @@ export async function list(req: Request, res: Response) {
 }
 
 export async function share(req: Request, res: Response) {
-    return;
+    try {
+        const { eid } = req.body; 
+        if (!eid) {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const shareurl = await generateUrl(eid);
+        res.json({ shareurl });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to get URL" });
+    }
 }
 
 export async function join(req: Request, res: Response) {

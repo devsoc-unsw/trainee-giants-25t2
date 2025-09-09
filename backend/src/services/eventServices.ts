@@ -39,11 +39,11 @@ export async function createEvent(name: string, uid: string, startdate: string, 
                 times: [],
             }
         ],
-        recommendedPlaces: [userPlace]
+        recommendedPlaces: [userPlace],
+        shareId: randomUUID()
     }
 
     await events.insertOne(event);
-
     return event;
 }
 
@@ -52,4 +52,19 @@ export async function listEvent(uid: string) {
     const found = await events.find({ userId: uid }).toArray();
     const eventNames = found.map(event => event.eventName);
     return eventNames;
+}
+
+export async function generateUrl(eid: string) {
+    const events= eventCollection();
+    const found = await events.findOne({ eventId: eid });
+    if (!found) {
+        throw new Error("Event not found");
+    }
+
+    const sid = found.shareId;
+    // Add BASE_URL once deployed
+    const baseUrl = process.env.BASE_URL || "http://localhost:3000"; 
+    const shareUrl = `${baseUrl}/api/event/share/${sid}`;
+
+    return shareUrl
 }
