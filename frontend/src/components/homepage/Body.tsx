@@ -58,6 +58,8 @@ export function WhiteBody() {
         buttonText="Continue"
         buttonClassName="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer hover:bg-orange-500"
         user={user}
+        likes={likes}
+        dislikes={dislikes}
       />
     </div>
   );

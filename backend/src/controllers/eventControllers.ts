@@ -1,14 +1,28 @@
 import { Request, Response } from "express";
-import { createEvent, listEvent } from "../services/eventServices";
+import { createEvent, findEventByEventId, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
-        const { name, uid, startdate, enddate, userPlace } = req.body;
-        const event = await createEvent(name, uid, startdate, enddate, userPlace);
+        const { name, dates, startTime, endTime, user } = req.body;
+        const event = await createEvent(name, dates, startTime, endTime, user);
         res.status(201).json({ eid: event.eventId });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Failed to create event" });
+    }
+}
+
+export async function event(req: Request, res: Response) {
+    try {
+        const { eid } = req.query;
+        if (!eid || typeof eid !== "string") {
+            return res.status(400).json({ error: "eid is required" });
+        }
+        const event = await findEventByEventId(eid);
+        res.json(event);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch event" });
     }
 }
 
