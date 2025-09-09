@@ -12,15 +12,15 @@ export async function ensureEventsIndex() {
     await eventCollection().createIndex({ userId: 1 });
 }
 
-export async function findEventByEventId(eid: string) {
-    const event = eventCollection();
-    return event.findOne({ eventId: eid });
-}
+// export async function findEventByEventId(eid: string) {
+//     const event = eventCollection();
+//     return event.findOne({ eventId: eid });
+// }
 
-export async function findEventByHostId(id: string) {
-    const event = eventCollection();
-    return event.findOne({ userId: id });
-}
+// export async function findEventByHostId(id: string) {
+//     const event = eventCollection();
+//     return event.findOne({ userId: id });
+// }
 
 export async function createEvent(name: string, uid: string, startdate: string, enddate: string, userPlace: UserPlace) {
     const events = eventCollection();
@@ -33,12 +33,7 @@ export async function createEvent(name: string, uid: string, startdate: string, 
             start: startdate,
             end: enddate,
         },
-        availability: [
-            {
-                users: [],
-                times: [],
-            }
-        ],
+        availability: [],
         recommendedPlaces: [userPlace],
         shareId: randomUUID()
     }
@@ -95,4 +90,63 @@ export async function generateUrl(eid: string) {
     const shareUrl = `${baseUrl}/api/event/share/${sid}`;
 
     return shareUrl
+}
+
+export async function deleteEvent(eid: string, uid:string) {
+    const events = eventCollection();
+    const found = await events.findOne({ eventId: eid });
+
+    if (!found) {
+        throw new Error("Event not found");
+    }
+    if (found.userId != uid) {
+        throw new Error("Event not host");
+    }
+
+    const result = await events.findOneAndDelete({ eventId: eid });
+    if (result) {
+        return "Event deleted successfully";
+    }
+    return "No event deleted";
+}
+
+export async function addUserAvailability(
+    eid: string,
+    uid: string,
+    slots: { date: string; times: string[] }[]
+) {
+    const events = eventCollection();
+    const found = await events.findOne({ eventId: eid });
+    if (!found) {
+        throw new Error("Event not found");
+    }
+
+    const existingUser = found.availability.find(a => a.users.includes(uid));
+
+    if (existingUser) {
+        // update the slots for this user
+        await events.updateOne(
+            { eventId: eid, "availability.users": uid },
+            {
+                $set: {
+                    "availability.$.slots": slots
+                }
+            }
+        );
+    } else {
+        // push new user availability entry
+        await events.updateOne(
+            { eventId: eid },
+            {
+                $push: {
+                    availability: {
+                        users: [uid],
+                        slots
+                    }
+                }
+            }
+        );
+    }
+
+    return await events.findOne({ eventId: eid });
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createEvent, editEvent, generateUrl, listEvent } from "../services/eventServices";
+import { addUserAvailability, createEvent, deleteEvent, editEvent, generateUrl, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
@@ -55,17 +55,39 @@ export async function share(req: Request, res: Response) {
 }
 
 export async function join(req: Request, res: Response) {
+    // leave join for later
     return;
 }
 
 export async function leave(req: Request, res: Response) {
-    return;
+    // also leave this for later
+   return;
 }
 
 export async function deleteevent(req: Request, res: Response) {
-    return;
+    try {
+        const { eid, uid } = req.body; 
+        if (!eid) {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const msg = await deleteEvent(eid, uid);
+        res.json({msg});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Faied to delete" });
+    }
 }
 
 export async function addavailability(req: Request, res: Response) {
-    return;
+    try {
+        const { eid, uid, slots} = req.body; 
+        if (!eid) {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const avai = await addUserAvailability(eid, uid, slots);
+        res.json({avai});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Faied to delete" });
+    }
 }

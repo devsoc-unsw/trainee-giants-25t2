@@ -38,12 +38,13 @@ export interface Event {
         start: string; // date 
         end: string; // date
     }
-    availability: [
-        {
-            users: UserList[];
+    availability: {
+        users: string[];
+        slots: {
+            date: string;
             times: string[];
-        }
-    ]
+        }[];
+    }[];
     // Show based on the availability on the fe ui
     recommendedPlaces: UserPlace[];
     shareId: string;
