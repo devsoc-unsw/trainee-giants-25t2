@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createEvent, generateUrl, listEvent } from "../services/eventServices";
+import { createEvent, editEvent, generateUrl, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
@@ -13,7 +13,17 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function edit(req: Request, res: Response) {
-    return;
+    try {
+        const { eid, uid, newName, newStartdate, newEnddate } = req.body; 
+        if (!eid) {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const event = await editEvent(eid, uid, newName, newStartdate, newEnddate);
+        res.json({ event });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to get URL" });
+    }
 }
 
 export async function list(req: Request, res: Response) {

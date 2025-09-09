@@ -9,7 +9,7 @@ function eventCollection() {
 
 export async function ensureEventsIndex() {
     await eventCollection().createIndex({ eventId: 1 }, { unique: true });
-    await eventCollection().createIndex({ userId: 1 }, {unique: true});
+    await eventCollection().createIndex({ userId: 1 });
 }
 
 export async function findEventByEventId(eid: string) {
@@ -45,6 +45,34 @@ export async function createEvent(name: string, uid: string, startdate: string, 
 
     await events.insertOne(event);
     return event;
+}
+
+export async function editEvent(eid: string, uid:string, newName: string, newStartdate: string, newEndate: string) {
+    const events = eventCollection();
+    const found = await events.findOne({ eventId: eid });
+
+    if (!found) {
+        throw new Error("Event not found");
+    }
+    if (found.userId != uid) {
+        throw new Error("Event not host");
+    }
+
+    const result = await events.findOneAndUpdate(
+        { eventId: eid },
+        {
+            $set: {
+                eventName: newName,
+                eventTimeSpan: {
+                    start: newStartdate,
+                    end: newEndate,
+                },
+            },
+        },
+        { returnDocument: "after" } 
+    );
+
+    return result; 
 }
 
 export async function listEvent(uid: string) {
