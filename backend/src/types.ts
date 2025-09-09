@@ -48,8 +48,7 @@ export interface Event {
         }
     ]
     // Show based on the availability on the fe ui
-    // recommendedPlaces: UserPlace[];
-    recommendedPlaces: string[]; // change so that only the liked places are stored?
+    recommendedPlaces: UserPlace[];
 }
 
 export interface EventList {

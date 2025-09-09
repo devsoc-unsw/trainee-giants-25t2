@@ -40,7 +40,7 @@ export async function createEvent(name: string, dates: Date[], startTime: string
                 times: [],
             }
         ],
-        recommendedPlaces: userPlace.likes
+        recommendedPlaces: [userPlace]
     }
 
     await events.insertOne(event);
