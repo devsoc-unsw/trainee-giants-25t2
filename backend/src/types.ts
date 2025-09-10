@@ -35,8 +35,11 @@ export interface Event {
     userId: string; // owner
     eventName: string;
     eventTimeSpan: {
-        start: string; // date 
-        end: string; // date
+        // start: string;
+        // end: string;
+        dates: Date[];
+        dayStart: string;
+        dayEnd: string;
     }
     availability: {
         users: string[];

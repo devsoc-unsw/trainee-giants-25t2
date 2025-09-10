@@ -2,6 +2,7 @@ import { Router } from "express";
 import { requireAuth } from "../middleware";
 import { 
   create, 
+  event, 
   edit, 
   list, 
   share, 
@@ -12,6 +13,16 @@ import {
 } from "../controllers/eventControllers";
 
 const r = Router();
+
+/**
+ * Returns details of an event given the event id. 
+ * 
+ * params:
+ *   eId (string) - event id
+ * return:
+ *   Event - object containing event details
+ */
+r.get("/", event);
 
 /**
  * Create a new event

@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const capital = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
 export function UserMenu({ name, onLogout }: { name: string; onLogout: () => void }) {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,6 +37,7 @@ export function UserMenu({ name, onLogout }: { name: string; onLogout: () => voi
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             onClick={() => {
               setOpen(false);
+              navigate("/events");
             }}
           >
             Events

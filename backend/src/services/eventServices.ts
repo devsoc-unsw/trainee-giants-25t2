@@ -1,7 +1,6 @@
 import { Event, EventList, UserPlace } from "../types";
 import { randomUUID } from "crypto";
 import { getDatabase } from "../db";
-import r from "../routes/authRoutes";
 
 function eventCollection() {
     return getDatabase().collection<Event>("events");
@@ -9,29 +8,31 @@ function eventCollection() {
 
 export async function ensureEventsIndex() {
     await eventCollection().createIndex({ eventId: 1 }, { unique: true });
+    // await eventCollection().createIndex({ userId: 1 }, {unique: true});  // multiple events for the same user?
     await eventCollection().createIndex({ userId: 1 });
 }
 
-// export async function findEventByEventId(eid: string) {
-//     const event = eventCollection();
-//     return event.findOne({ eventId: eid });
-// }
+export async function findEventByEventId(eid: string) {
+    const event = eventCollection();
+    return event.findOne({ eventId: eid });
+}
 
 // export async function findEventByHostId(id: string) {
 //     const event = eventCollection();
 //     return event.findOne({ userId: id });
 // }
 
-export async function createEvent(name: string, uid: string, startdate: string, enddate: string, userPlace: UserPlace) {
+export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, userPlace: UserPlace) {
     const events = eventCollection();
 
     const event: Event = {
         eventId: randomUUID(),
-        userId: uid,
+        userId: userPlace.userId,
         eventName: name,
         eventTimeSpan: {
-            start: startdate,
-            end: enddate,
+            dates,
+            dayStart: startTime,
+            dayEnd: endTime,
         },
         availability: [],
         recommendedPlaces: [userPlace],
@@ -42,7 +43,7 @@ export async function createEvent(name: string, uid: string, startdate: string, 
     return event;
 }
 
-export async function editEvent(eid: string, uid:string, newName: string, newStartdate: string, newEndate: string) {
+export async function editEvent(eid: string, uid:string, newDates: Date[], newName: string, newStartdate: string, newEndate: string) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
 
@@ -59,8 +60,9 @@ export async function editEvent(eid: string, uid:string, newName: string, newSta
             $set: {
                 eventName: newName,
                 eventTimeSpan: {
-                    start: newStartdate,
-                    end: newEndate,
+                    dates: newDates,
+                    dayStart: newStartdate,
+                    dayEnd: newEndate,
                 },
             },
         },
@@ -73,7 +75,7 @@ export async function editEvent(eid: string, uid:string, newName: string, newSta
 export async function listEvent(uid: string) {
     const events = eventCollection();
     const found = await events.find({ userId: uid }).toArray();
-    const eventNames = found.map(event => event.eventName);
+    const eventNames: EventList[] = found.map(event => ({ eventId: event.eventId, eventName: event.eventName }));
     return eventNames;
 }
 

@@ -1,8 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
-import { EventsPage } from "./pages/Events";
+import { EventCreate } from "./pages/EventCreate";
+import { Event } from "./pages/Event";
+import { Events } from "./pages/Events";
 import { Login } from "./pages/Login";
+
+import { HeaderBar } from "./components/HeaderBar";
 
 import type { ReactNode } from "react";
 import { useUser } from "./hooks/useAuth";
@@ -20,10 +24,13 @@ const ProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
 export const Router = () => {
   return (
     <>
+      <HeaderBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/create-event" element={<ProtectedRoute><EventsPage/></ProtectedRoute>}/>
+        <Route path="/register" element={<Register />}/>
+        <Route path="/create-event" element={<ProtectedRoute><EventCreate /></ProtectedRoute>}/>
+        <Route path="/event/:eid" element={<Event />}/>
+        <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>}/>
         <Route path="/login" element={<Login />} />
       </Routes>
     </>
