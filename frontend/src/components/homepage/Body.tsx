@@ -1,11 +1,13 @@
 import { SwipeCards } from "./SwipeCards";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePlaces } from "../../hooks/usePlaces";
 import { useUser } from "../../hooks/useAuth";
 import { LoadingSpinner } from "./Loading";
 import { SelectedRestaurants } from "./RestaurantList";
 import { motion } from "framer-motion";
 import { LoginRequiredModal } from "./LoginRequiredModal";
+import api from "../../lib/axios";
+import type { UserPlace } from "../../types/user.types";
 
 
 export function WhiteBody() {
@@ -13,7 +15,24 @@ export function WhiteBody() {
   const [dislikes, setDislikes] = useState<string[]>([]);
 
   const { data: user } = useUser();
-  
+
+  const processSwipe = async () => {
+    if (!user) return;
+
+    const userPlace: UserPlace = { userId: user.userId, likes, dislikes };
+
+    try {
+      await api.put("/user/food", { userPlace });
+    } catch (e: any) {
+      const message = e?.response?.data?.error || e?.message || "Failed to edit user's likes and dislikes";
+      console.log(message);
+    }
+  }
+
+  useEffect(() => {
+    processSwipe();
+  }, [likes, dislikes]);
+
   const lat = -33.8688;
   const lon = 151.2093;
 

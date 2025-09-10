@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import placesRouter from "./routes/places";
 import authRouter from "./routes/authRoutes"
 import eventRouter from "./routes/eventRoutes"
+import userRouter from "./routes/userRoutes"
 import { connectMongo } from './db';
 import { ensureUserIndexs } from './services/userServices';
 import { ensurePlacesIndex } from './services/placesServices';
@@ -33,6 +34,7 @@ app.get('/', (_req, res) => {
   app.use("/api/places", placesRouter); // calls the route
   app.use("/api/auth", authRouter)
   app.use("/api/events", eventRouter)
+  app.use("/api/user", userRouter)
 
   app.listen(PORT, () => {
     console.log(`what2eat backend running at http://localhost:${PORT}`);
