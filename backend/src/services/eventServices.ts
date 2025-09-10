@@ -24,7 +24,7 @@ export async function findEventByEventId(eid: string) {
 
 export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, userPlace: UserPlace) {
     const events = eventCollection();
-
+    console.log(userPlace)
     const event: Event = {
         eventId: randomUUID(),
         userId: userPlace.userId,

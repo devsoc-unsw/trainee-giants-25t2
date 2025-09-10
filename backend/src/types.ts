@@ -86,7 +86,7 @@ export interface Place {
 export interface UserPlace {
     userId: string,
     likes: string[], // liked resto
-    dislike: string[], // disliked resto
+    dislikes: string[], // disliked resto
 }
 
 // export interface UserPlaceByParticipant {
