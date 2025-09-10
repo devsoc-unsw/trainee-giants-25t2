@@ -41,14 +41,16 @@ export interface Event {
         dayStart: string;
         dayEnd: string;
     }
-    availability: [
-        {
-            users: UserList[];
+    availability: {
+        users: string[];
+        slots: {
+            date: string;
             times: string[];
-        }
-    ]
+        }[];
+    }[];
     // Show based on the availability on the fe ui
     recommendedPlaces: UserPlace[];
+    shareId: string;
 }
 
 export interface EventList {
@@ -84,7 +86,7 @@ export interface Place {
 export interface UserPlace {
     userId: string,
     likes: string[], // liked resto
-    dislike: string[], // disliked resto
+    dislikes: string[], // disliked resto
 }
 
 // export interface UserPlaceByParticipant {
