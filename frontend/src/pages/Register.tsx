@@ -78,16 +78,16 @@ export function Register() {
           </button>
         </div>
 
-        <div className="pt-2">
+        <div className="flex flex-row items-center justify-center gap-2 pt-2">
           <p className="text-center text-gray-600 text-sm">
             Already have an account?{" "}
-            <button
-              className="text-orange-500 font-medium hover:underline"
+          </p>
+           <div
+              className="text-orange-500 font-medium underline cursor-pointer hover:text-orange-600 "
               onClick={() => navigate("/login")}
             >
               Login
-            </button>
-          </p>
+          </div>
         </div>
 
         <div className="mt-6 text-center">

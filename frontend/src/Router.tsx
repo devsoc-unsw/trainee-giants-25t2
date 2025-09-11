@@ -6,7 +6,6 @@ import { Event } from "./pages/Event";
 import { Events } from "./pages/Events";
 import { Login } from "./pages/Login";
 
-import { HeaderBar } from "./components/HeaderBar";
 
 import type { ReactNode } from "react";
 import { useUser } from "./hooks/useAuth";
@@ -24,7 +23,6 @@ const ProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
 export const Router = () => {
   return (
     <>
-      <HeaderBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />}/>
