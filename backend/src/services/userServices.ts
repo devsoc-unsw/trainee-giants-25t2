@@ -69,7 +69,8 @@ export async function getUserLikesDislikes(uid: string) {
 }
 
 export async function editUserLikesDislikes(userPlace: UserPlace) {
-    await usersCollection().updateOne(
+    const users = usersCollection();
+    await users.updateOne(
         { userId: userPlace.userId },
         {
             $addToSet: {
