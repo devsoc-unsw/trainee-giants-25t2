@@ -35,23 +35,22 @@ export interface Event {
     userId: string; // owner
     eventName: string;
     eventTimeSpan: {
-        start: string;
-        end: string;
+        // start: string;
+        // end: string;
+        dates: Date[];
+        dayStart: string;
+        dayEnd: string;
     }
-    availability: [
-        {
-            users: UserList[];
+    availability: {
+        users: string[];
+        slots: {
+            date: string;
             times: string[];
-        }
-    ]
+        }[];
+    }[];
     // Show based on the availability on the fe ui
-    recommendedPlaces: [
-        {
-            availabilityId: string;
-            foodPlaceId: string;
-            votes: string;
-        }
-    ]
+    recommendedPlaces: UserPlace[];
+    shareId: string;
 }
 
 export interface EventList {
@@ -83,3 +82,16 @@ export interface Place {
         coordinates: [number, number]; // lat, lon
     };
 }
+
+export interface UserPlace {
+    userId: string,
+    likes: string[], // liked resto
+    dislikes: string[], // disliked resto
+}
+
+// export interface UserPlaceByParticipant {
+//     participantId: string;
+//     userId?: never;
+//     likes: string[];
+//     dislike: string[];
+// }

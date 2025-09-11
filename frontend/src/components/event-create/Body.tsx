@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EventNameInput } from "./EventNameInput";
 import { DateModeToggle } from "./Date";
 import { TimeSelector } from "./SelectTime";
@@ -7,15 +7,58 @@ import { MiniCalendar } from "./Calendar";
 import { CreateButton } from "./Button";
 
 import { AnimatePresence } from "framer-motion";
+import { useUser } from "../../hooks/useAuth";
+
+import api from "../../lib/axios";
+import type { UserPlace } from "../../types/user.types";
+
+interface EventPayload {
+  name: string;
+  startTime: string;
+  endTime: string;
+  dates: Date[];
+  user : UserPlace;
+};
 
 export function WhiteBody() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [eventName, setEventName] = useState("");
   const [dateMode, setDateMode] = useState<"dateTime" | "datesOnly">("dateTime");
   const [startTime, setStartTime] = useState("9:00 am");
   const [endTime, setEndTime] = useState("5:00 pm");
   const [specificDates, setSpecificDates] = useState<Date[]>([]);
   const isFormValid = eventName.trim().length > 0;
-  const navigate = useNavigate();
+
+  const { data: user } = useUser();
+  console.log(user);
+  const createEvent = async () => {
+    const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
+
+    const userPlace: UserPlace = {
+      userId: user!.userId,
+      likes: location.state.likes,
+      dislikes: location.state.dislikes
+    }
+    
+    console.log(userPlace)
+    const payload: EventPayload = {
+      name: eventName,
+      startTime,
+      endTime,
+      dates: sortedDates,
+      user: userPlace,
+    }
+    console.log(payload)
+    try {
+      const { data } = await api.post("/events/create", payload);
+      navigate("/event/" + data.eid);
+    } catch (e: any) {
+      const message = e?.response?.data?.error || e?.message || "Event creation failed. Please try again.";
+      console.log(message);
+    }
+  }
 
   return (
     <div className="flex bg-white h-screen justify-center items-center flex-col">
@@ -50,8 +93,7 @@ export function WhiteBody() {
           />
         </AnimatePresence>
 
-        // TODO logic
-        <CreateButton disabled={!isFormValid} onClick={() => console.log("Create event")} />
+        <CreateButton disabled={!isFormValid} onClick={() => createEvent()} />
 
         {!isFormValid && (
           <span className="text-red-500 text-sm mt-1 disable">

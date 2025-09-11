@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { User } from "../../types/user.types";
 
 interface LoginRequiredProps {
   buttonText: string;
   buttonClassName: string;
-  user: any;
+  user: User | undefined;
+  likes?: string[];
+  dislikes?: string[];
 }
 
-export function LoginRequiredModal({ buttonText, buttonClassName, user } : LoginRequiredProps) {
+export function LoginRequiredModal({ buttonText, buttonClassName, user, likes, dislikes } : LoginRequiredProps) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
     if (user) {
-      navigate("/create-event");
+      navigate("/create-event", { state: { likes, dislikes }});
     } else {
       setIsOpen(true);
     }

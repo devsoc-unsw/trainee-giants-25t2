@@ -1,13 +1,14 @@
-import { SwipeCards } from "./homepage/SwipeCards";
+import { SwipeCards } from "./SwipeCards";
 import { useState } from "react";
-import { usePlaces } from "../hooks/usePlaces";
-import { LoadingSpinner } from "./homepage/Loading";
-import { SelectedRestaurants } from "./homepage/RestaurantList";
+import { usePlaces } from "../../hooks/usePlaces";
+import { useUser } from "../../hooks/useAuth";
+import { LoadingSpinner } from "./Loading";
+import { SelectedRestaurants } from "./RestaurantList";
 import { motion } from "framer-motion";
-import { LoginRequiredModal } from "./homepage/LoginRequiredModal";
-import { useUser } from "../hooks/useAuth";
+import { LoginRequiredModal } from "./LoginRequiredModal";
 
-export function RedBody() {
+
+export function WhiteBody() {
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
 
@@ -57,6 +58,8 @@ export function RedBody() {
         buttonText="Continue"
         buttonClassName="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-[#E98657] text-white text-center font-bold rounded-md w-[200px] cursor-pointer hover:bg-orange-500"
         user={user}
+        likes={likes}
+        dislikes={dislikes}
       />
     </div>
   );

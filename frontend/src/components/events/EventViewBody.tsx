@@ -1,4 +1,4 @@
-import { EventTimetable } from "./EventTimetable";
+import { EventTimetable } from "../event-create/EventTimetable";
 
 export function EventViewBody() {
   // TO DO: link with event creation info, this is sample data
