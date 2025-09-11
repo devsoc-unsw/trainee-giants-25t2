@@ -1,6 +1,6 @@
-import { EventTimetable } from "../event-create/EventTimetable";
+import { EventTimetable } from "../events/EventTimetable";
 
-export function EventViewBody() {
+export function EventTimetableBody() {
   // TO DO: link with event creation info, this is sample data
   const today = new Date();
   const dates = Array.from({ length: 8 }, (_, i) => {
