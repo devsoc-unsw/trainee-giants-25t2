@@ -8,7 +8,9 @@ export interface User {
     password: string;
     name: string;
 
-    foodRecommendation: string[]; // list of foods from tinder picks
+    // foodRecommendation: string[]; // list of foods from tinder picks
+    likes: string[],
+    dislikes: string[],
     events: EventList[]; // list of createdevents
     eventHistory: EventList[];   // list of past events
 }
