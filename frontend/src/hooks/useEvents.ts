@@ -32,6 +32,6 @@ export function getEvents(uid: string) {
 }
 
 export async function editEventFood(payload: EventEditFoodPayload) {
-    const { data } = await api.put("/events/food", payload);
-    return data.event;
+  const { data } = await api.put("/events/food", payload);
+  return data.event;
 }
