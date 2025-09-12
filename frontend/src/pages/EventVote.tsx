@@ -12,12 +12,10 @@ export function EventVote() {
 
   return (
     <div className="flex flex-col h-screen w-screen">
-      <div className="w-full flex relative">
-        <div className="flex flex-col items-center w-full gap-16">
-          <EventVoteHeader />
-          <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
-          <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />
-        </div>
+      <div className="flex flex-col items-center w-full gap-16">
+        <EventVoteHeader />
+        <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
+        <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />
       </div>
     </div>
   );
