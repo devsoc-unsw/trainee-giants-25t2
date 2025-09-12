@@ -107,7 +107,7 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
         {dates.map((d: Date) => (
           <div
             key={new Date(d).getTime()}
-            className="h-10 flex items-center justify-center px-2 text-gray-800"
+            className="h-10 flex items-center justify-center px-2 font-semibold text-gray-800"
           >
             <span className="block w-full text-center text-sm truncate">
               {formatDate(new Date(d))}
