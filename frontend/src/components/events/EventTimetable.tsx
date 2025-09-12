@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react";
 
 interface TimetableProps {
   dates: Date[];
-  startHour?: number; // 24H time
-  endHour?: number;
+  startHour: number; // 24H time
+  endHour: number;
   onChange?: (slots: { date: string; times: string[] }[]) => void;
 }
 
 // default hours being 9AM - 6PM if not given
-export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }: TimetableProps) {
+export function EventTimetable({ dates, startHour, endHour, onChange }: TimetableProps) {
   const timeSlots: { time: string; hasLabel: boolean }[] = [];
   // 30-min time slots
   for (let h = startHour; h <= endHour; h++) {
@@ -20,11 +20,13 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
     gridTemplateColumns: `max-content repeat(${dates.length}, minmax(120px, 1fr))`
   };
 
-  const formatDate = (d: Date) => d.toLocaleDateString("en-AU", {
-    weekday: "short",
-    month: "short",
-    day: "numeric"
-  });
+  const formatDate = (d: Date) => {
+    return d.toLocaleDateString("en-AU", {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
+  }
 
   const isoDay = (d: Date) => d.toISOString().slice(0, 10);
 
@@ -59,7 +61,7 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
     });
   };
 
-  const endDrag = () => {
+  const endDrag = async () => {
     if (!dragRef.current) return;
     dragRef.current = false;
 
@@ -81,12 +83,13 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
       }
     }
 
-    const payload: { date: string; times: string[] }[] = [];
+    const slots: { date: string; times: string[] }[] = [];
     for (const [dateIdx, times] of selectedDates.entries()) {
       times.sort();
-      payload.push({ date: isoDay(dates[dateIdx]), times: times });
+      slots.push({ date: isoDay(new Date(dates[dateIdx])), times: times });
     }
-    onChange(payload);
+
+    onChange(slots);
   };
 
   return (
@@ -101,13 +104,13 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
         style={columnTemplate}
       >
         <div className="w-14" />
-        {dates.map((d) => (
+        {dates.map((d: Date) => (
           <div
-            key={d.getTime()}
-            className="h-10 flex items-center justify-center px-2 font-bold text-gray-600"
+            key={new Date(d).getTime()}
+            className="h-10 flex items-center justify-center px-2 text-gray-800"
           >
             <span className="block w-full text-center text-sm truncate">
-              {formatDate(d)}
+              {formatDate(new Date(d))}
             </span>
           </div>
         ))}

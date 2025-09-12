@@ -5,7 +5,6 @@ import { EventCreate } from "./pages/EventCreate";
 import { Event } from "./pages/Event";
 import { Events } from "./pages/Events";
 import { Login } from "./pages/Login";
-import { Availability } from "./pages/EventTimeAvailability";
 
 // import type { ReactNode } from "react";
 // import { useUser } from "./hooks/useAuth";
@@ -33,7 +32,7 @@ export const Router = () => {
         <Route path="/events" element={<Events />}/>
         <Route path="/login" element={<Login />} />
         {/* For testing */}
-        <Route path="/availability" element={<Availability />} />
+        <Route path="/availability" element={<Event />} />
       </Routes>
     </>
   );

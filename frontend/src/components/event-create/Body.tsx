@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { EventNameInput } from "./EventNameInput";
 import { DateModeToggle } from "./Date";
 import { TimeSelector } from "./SelectTime";
@@ -10,11 +11,12 @@ import { AnimatePresence } from "framer-motion";
 import { useUser } from "../../hooks/useAuth";
 
 import api from "../../lib/axios";
+import { setCookie } from "../../cookie/cookie";
 
 interface EventPayload {
   name: string;
-  startTime: string;
-  endTime: string;
+  startTime: number;
+  endTime: number;
   dates: Date[];
   owner : string;
 };
@@ -34,15 +36,36 @@ export function WhiteBody() {
   const createEvent = async () => {
     const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
 
-    const uid = user ? user.userId : "";
+    let uid: string;
+    if (user) {
+      uid = user.userId;
+    } else {
+      uid = self.crypto.randomUUID();
+      setCookie(uid, sortedDates[sortedDates.length - 1]);
+    }
+
+    let startTimeNum: number = parseInt(startTime);
+    let endTimeNum: number = parseInt(endTime);
+    if (startTime.includes("pm")) {
+      if (!startTime.includes("12")) startTimeNum += 12;
+    } else {
+      if (startTime.includes("12")) startTimeNum -= 12;
+    }
+
+    if (endTime.includes("pm")) {
+      if (!endTime.includes("12")) endTimeNum += 12;
+    } else {
+      if (endTime.includes("12")) endTimeNum -= 12;
+    }
 
     const payload: EventPayload = {
       name: eventName,
-      startTime,
-      endTime,
+      startTime: startTimeNum,
+      endTime: endTimeNum,
       dates: sortedDates,
       owner: uid,
     }
+      
     try {
       const { data } = await api.post("/events/create", payload);
       // redirect to voting page instead of event page

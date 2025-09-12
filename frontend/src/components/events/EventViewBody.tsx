@@ -1,35 +1,45 @@
 import { useState } from "react";
+import type { Event } from "../../types/event.types";
 import { EventTimetable } from "../events/EventTimetable";
+import { useUser } from "../../hooks/useAuth";
+import { getCookie } from "../../cookie/cookie";
+import { editEventUserAvailability } from "../../hooks/useEvents";
 
-export function EventTimetableBody() {
-  // TODO: link with event creation info, this is sample data
-  const today = new Date();
-  const dates = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-    return d;
-  });
-  const startHour = 9;
-  const endHour = 17;
-
-  type AvailabilitySlot = { date: string; times: string[] }; // format: "YYYY-MM-DD", ["09:00", "09:30", ...]
-
+export function EventTimetableBody({ event }: { event: Event }) {
   // Stores timetable state info
-  const [availabilities, setAvailabilities] = useState<AvailabilitySlot[]>([]);
+  // Availability format: "YYYY-MM-DD", ["09:00", "09:30", ...]
+  const [availabilities, setAvailabilities] = useState<{ date: string; times: string[] }[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateAvailabilities = (payload: AvailabilitySlot[]) => {
+  const updateAvailabilities = (payload: { date: string; times: string[] }[]) => {
     // Payload is all selected 30-min slots after update
     setAvailabilities(payload);
   }
+
+  const { data: user } = useUser();
 
   const handleDone = async () => {
     try {
       setSubmitting(true);
       setError(null);
 
-      // TODO: POST REQ TO BACKEND
+      // Post req to backend
+      let uid: string;
+      if (user) {
+        uid = user.userId;
+      } else {
+        uid = getCookie()!;
+      }
+
+      const eid = event.eventId;
+      const payload = { eid, uid, slots: availabilities };
+      try {
+        await editEventUserAvailability(payload);
+      } catch (e: any) {
+        const message = e?.response?.data?.error || e?.message || "Adding event food recommendations failed.";
+        console.log(message);
+      }
     } catch (e) {
       setError("Failed to save availability");
     } finally {
@@ -42,9 +52,9 @@ export function EventTimetableBody() {
       <h1 className="text-xl text-center text-black font-bold">Select your availabilities</h1>
 
       <EventTimetable
-        dates={dates}
-        startHour={startHour}
-        endHour={endHour}
+        dates={event.eventTimeSpan.dates}
+        startHour={parseInt(event.eventTimeSpan.dayStart)}
+        endHour={parseInt(event.eventTimeSpan.dayEnd)}
         onChange={updateAvailabilities}
       />
 

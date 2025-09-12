@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { editUserFood, useUser } from "../../hooks/useAuth";
 import { editEventFood } from "../../hooks/useEvents";
 import type { UserPlace } from "../../types/user.types";
+import { getCookie } from "../../cookie/cookie";
 
 interface SubmitEventVoteProps {
   likes: string[];
@@ -19,7 +20,12 @@ const SubmitEventVote = ({ likes, dislikes, eid }: SubmitEventVoteProps) => {
   const { data: user } = useUser();
 
   const submit = async () => {
-    const uid = user ? user.userId : "";
+    let uid: string;
+    if (user) {
+      uid = user.userId;
+    } else {
+      uid = getCookie()!;
+    }
 
     const userPlace: UserPlace = {
       userId: uid,
