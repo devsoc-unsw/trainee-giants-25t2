@@ -6,7 +6,6 @@ import { Event } from "./pages/Event";
 import { Events } from "./pages/Events";
 import { Login } from "./pages/Login";
 
-
 // import type { ReactNode } from "react";
 // import { useUser } from "./hooks/useAuth";
 import { EventVote } from "./pages/EventVote";

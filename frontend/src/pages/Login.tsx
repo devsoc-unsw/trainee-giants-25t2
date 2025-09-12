@@ -37,13 +37,13 @@ export function Login() {
 						<h2 className="text-2xl font-semibold text-gray-800">Login</h2>
 					</div>
 
-					<div className="mb-6">
-						{err && (
-							<div className="p-3 rounded bg-red-50 border text-black border-red-200 test-red-700 text-sm mb-2">
-								{err}
-							</div>
-						)}
-					</div>
+                <div className="mb-6">
+                    {err && (
+                        <div className="p-3 rounded bg-red-50 border text-black border-red-200 text-red-700 text-sm mb-2">
+                            {err}
+                        </div>
+                    )}
+                </div>
 
 					<div className="space-y-6">
 						<div>
