@@ -31,8 +31,6 @@ export const Router = () => {
         <Route path="/event/:eid/vote" element={<EventVote />}/>
         <Route path="/events" element={<Events />}/>
         <Route path="/login" element={<Login />} />
-        {/* For testing */}
-        <Route path="/availability" element={<Event />} />
       </Routes>
     </>
   );
