@@ -43,7 +43,6 @@ export function WhiteBody() {
       dates: sortedDates,
       owner: uid,
     }
-
     try {
       const { data } = await api.post("/events/create", payload);
       // redirect to voting page instead of event page
