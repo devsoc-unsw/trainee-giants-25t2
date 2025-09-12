@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { EventNameInput } from "./EventNameInput";
 import { DateModeToggle } from "./Date";
 import { TimeSelector } from "./SelectTime";
@@ -10,19 +10,17 @@ import { AnimatePresence } from "framer-motion";
 import { useUser } from "../../hooks/useAuth";
 
 import api from "../../lib/axios";
-import type { UserPlace } from "../../types/user.types";
 
 interface EventPayload {
   name: string;
   startTime: string;
   endTime: string;
   dates: Date[];
-  user : UserPlace;
+  owner : string;
 };
 
 export function WhiteBody() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [eventName, setEventName] = useState("");
   const [dateMode, setDateMode] = useState<"dateTime" | "datesOnly">("dateTime");
@@ -32,28 +30,24 @@ export function WhiteBody() {
   const isFormValid = eventName.trim().length > 0;
 
   const { data: user } = useUser();
-  console.log(user);
+
   const createEvent = async () => {
     const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
-
-    const userPlace: UserPlace = {
-      userId: user!.userId,
-      likes: location.state.likes,
-      dislikes: location.state.dislikes
-    }
     
-    console.log(userPlace)
+    const uid = user ? user.userId : "";
+
     const payload: EventPayload = {
       name: eventName,
       startTime,
       endTime,
       dates: sortedDates,
-      user: userPlace,
+      owner: uid,
     }
-    console.log(payload)
     try {
       const { data } = await api.post("/events/create", payload);
-      navigate("/event/" + data.eid);
+      // redirect to voting page instead of event page
+      // navigate("/event/" + data.eid);
+      navigate("/event/" + data.eid + "/vote");
     } catch (e: any) {
       const message = e?.response?.data?.error || e?.message || "Event creation failed. Please try again.";
       console.log(message);

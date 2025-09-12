@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { addUserAvailability, createEvent, deleteEvent, editEvent, findEventByEventId, generateUrl, listEvent } from "../services/eventServices";
+import { addUserAvailability, createEvent, deleteEvent, editEvent, editFoodPlaces, findEventByEventId, generateUrl, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
-        const { name, dates, startTime, endTime, user } = req.body;
-        const event = await createEvent(name, dates, startTime, endTime, user);
+        const { name, dates, startTime, endTime, owner } = req.body;
+        const event = await createEvent(name, dates, startTime, endTime, owner);
         res.status(201).json({ eid: event.eventId });
     } catch (err) {
         console.error(err);
@@ -19,7 +19,7 @@ export async function event(req: Request, res: Response) {
             return res.status(400).json({ error: "eid is required" });
         }
         const event = await findEventByEventId(eid);
-        res.json(event);
+        res.json({ event });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Failed to fetch event" });
@@ -33,6 +33,20 @@ export async function edit(req: Request, res: Response) {
             return res.status(400).json({ error: "no event exists" });
         }
         const event = await editEvent(eid, uid, newName, newDates, newStartdate, newEnddate);
+        res.json({ event });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to get URL" });
+    }
+}
+
+export async function editFood(req: Request, res: Response) {
+    try {
+        const { eid, user } = req.body; 
+        if (!eid) {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const event = await editFoodPlaces(eid, user);
         res.json({ event });
     } catch (err) {
         console.error(err);

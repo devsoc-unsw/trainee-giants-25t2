@@ -49,7 +49,8 @@ export async function login(req: Request, res: Response) {
 
 export async function whoAmI(req: Request, res: Response) {
     const token = req.cookies?.access_token;
-    if (!token) return res.status(401).json({ error: "Unauthenticated" });
+    // placeholder so that those logged out are able to add to the database for events
+    // if (!token) return res.status(401).json({ error: "Unauthenticated" });
 
     try {
         const payload = verifyAccess(token);
