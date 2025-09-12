@@ -33,7 +33,7 @@ export function WhiteBody() {
 
   const createEvent = async () => {
     const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
-    
+
     const uid = user ? user.userId : "";
 
     const payload: EventPayload = {

@@ -1,4 +1,5 @@
-import { EventTimetableBody } from "../components/events/EventViewBody";
+import {EventTimetableBody} from "../components/events/EventViewBody";
+
 
 export function Availability() {
   return (

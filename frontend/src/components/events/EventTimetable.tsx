@@ -89,7 +89,6 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
     onChange(payload);
   };
 
-  // TO DO: simple base timetable assuming max dates length = 8 (will change and adapt with horizontal scroll wheel)
   return (
     <div
       className="rounded-md select-none"
@@ -105,7 +104,7 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
         {dates.map((d) => (
           <div
             key={d.getTime()}
-            className="h-10 flex items-center justify-center px-2 text-gray-800"
+            className="h-10 flex items-center justify-center px-2 font-bold text-gray-600"
           >
             <span className="block w-full text-center text-sm truncate">
               {formatDate(d)}
@@ -124,7 +123,7 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
         >
           {/* Time row labels */}
           <div
-            className="h-0.5 flex items-center justify-end pr-3 text-xs text-gray-700 bg-white w-14"
+            className="h-0.5 flex items-center justify-end pr-3 text-xs font-bold text-gray-600 bg-white w-14"
             onMouseDown={(e) => startDrag(null, null, e)}
           >
             {hasLabel ? time : ""}
@@ -138,7 +137,7 @@ export function EventTimetable({ dates, startHour = 9, endHour = 18, onChange }:
               <div
                 key={cell}
                 className={[
-                  "h-7 bg-white border",
+                  "h-7 border cursor-pointer",
                   isSelected ? "bg-emerald-200 border-emerald-400" : "bg-white border-gray-200"
                   ].join(" ")}
                 onMouseDown={(e) => startDrag(dateIdx, slotIdx, e)}
