@@ -32,7 +32,6 @@ export function WhiteBody() {
   const isFormValid = eventName.trim().length > 0;
 
   const { data: user } = useUser();
-  console.log(user);
   const createEvent = async () => {
     const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
 
@@ -41,8 +40,7 @@ export function WhiteBody() {
       likes: location.state.likes,
       dislikes: location.state.dislikes
     }
-    
-    console.log(userPlace)
+
     const payload: EventPayload = {
       name: eventName,
       startTime,
@@ -50,7 +48,6 @@ export function WhiteBody() {
       dates: sortedDates,
       user: userPlace,
     }
-    console.log(payload)
     try {
       const { data } = await api.post("/events/create", payload);
       navigate("/event/" + data.eid);
