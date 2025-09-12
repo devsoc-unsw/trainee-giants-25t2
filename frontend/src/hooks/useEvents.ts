@@ -1,9 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
+import type { UserPlace } from "../types/user.types";
+
+interface EventEditFoodPayload {
+  eid: string;
+  user: UserPlace;
+}
 
 const fetchEvent = async (eid: string) => {
   const { data } = await api.get("/events", { params: { eid } });
-  return data;
+  return data.event;
 };
 
 const fetchEvents = async (uid: string) => {
@@ -23,4 +29,9 @@ export function getEvents(uid: string) {
     queryKey: ["events"],
     queryFn: () => fetchEvents(uid),
   });
+}
+
+export async function editEventFood(payload: EventEditFoodPayload) {
+  const { data } = await api.put("/events/food", payload);
+  return data.event;
 }

@@ -9,7 +9,8 @@ import {
   join, 
   leave, 
   deleteevent, 
-  addavailability 
+  addavailability, 
+  editFood
 } from "../controllers/eventControllers";
 
 const r = Router();
@@ -36,7 +37,7 @@ r.get("/", event);
  * return: 
  *   eid (string) - newly created eventId
  */
-r.post("/create", requireAuth, create); 
+r.post("/create", create); 
 
 /**
  * Edit event details (should remove all existing data, like participants
@@ -50,6 +51,15 @@ r.post("/create", requireAuth, create);
  *   enddate? (string, ISO) - optional updated end date
  */
 r.put("/edit", edit)
+
+/**
+ * Add to the liked and disliked restaurant pool for the event
+ * 
+ * params:
+ *   eid (string) - eventId
+ *   foodrecommendation (UserPlace[]) - list of food preferences
+ */
+r.put("/food", editFood)
 
 /**
  * List all events for a user

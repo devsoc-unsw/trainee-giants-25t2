@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios"
+import type { UserPlace } from "../types/user.types";
 
 export type UserPayload = {
     email: string;
@@ -41,4 +42,8 @@ export function useLogout() {
         qc.setQueryData(["user"], null);
         qc.invalidateQueries({ queryKey: ["user"] });
     }
+}
+
+export async function editUserFood(payload: { userPlace: UserPlace }) {
+  return await api.put("/user/food", payload);
 }
