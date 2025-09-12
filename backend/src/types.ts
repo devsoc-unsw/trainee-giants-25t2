@@ -40,8 +40,8 @@ export interface Event {
         // start: string;
         // end: string;
         dates: Date[];
-        dayStart: string;
-        dayEnd: string;
+        dayStart: number;
+        dayEnd: number;
     }
     availability: {
         users: string[];
