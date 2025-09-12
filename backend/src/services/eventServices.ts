@@ -22,7 +22,7 @@ export async function findEventByEventId(eid: string) {
 //     return event.findOne({ userId: id });
 // }
 
-export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, owner: string) {
+export async function createEvent(name: string, dates: Date[], startTime: number, endTime: number, owner: string) {
     const events = eventCollection();
 
     const event: Event = {
@@ -43,7 +43,7 @@ export async function createEvent(name: string, dates: Date[], startTime: string
     return event;
 }
 
-export async function editEvent(eid: string, uid:string, newDates: Date[], newName: string, newStartdate: string, newEndate: string) {
+export async function editEvent(eid: string, uid:string, newDates: Date[], newName: string, newStartdate: number, newEndate: number) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
 

@@ -108,7 +108,7 @@ export async function deleteevent(req: Request, res: Response) {
 
 export async function addavailability(req: Request, res: Response) {
     try {
-        const { eid, uid, slots} = req.body; 
+        const { eid, uid, slots } = req.body; 
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
