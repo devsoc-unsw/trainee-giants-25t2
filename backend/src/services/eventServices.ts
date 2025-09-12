@@ -22,12 +22,12 @@ export async function findEventByEventId(eid: string) {
 //     return event.findOne({ userId: id });
 // }
 
-export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, userPlace: UserPlace) {
+export async function createEvent(name: string, dates: Date[], startTime: string, endTime: string, owner: string) {
     const events = eventCollection();
-    console.log(userPlace)
+
     const event: Event = {
         eventId: randomUUID(),
-        userId: userPlace.userId,
+        userId: owner,
         eventName: name,
         eventTimeSpan: {
             dates,
@@ -35,7 +35,7 @@ export async function createEvent(name: string, dates: Date[], startTime: string
             dayEnd: endTime,
         },
         availability: [],
-        recommendedPlaces: [userPlace],
+        recommendedPlaces: [],
         shareId: randomUUID()
     }
 
@@ -65,6 +65,29 @@ export async function editEvent(eid: string, uid:string, newDates: Date[], newNa
                     dayEnd: newEndate,
                 },
             },
+        },
+        { returnDocument: "after" } 
+    );
+
+    return result; 
+}
+
+export async function editFoodPlaces(eid: string, user: UserPlace) {
+    const events = eventCollection();
+    const found = await events.findOne({ eventId: eid });
+
+    if (!found) {
+        throw new Error("Event not found");
+    }
+
+    const result = await events.findOneAndUpdate(
+        { 
+            eventId: eid,
+        },
+        {
+            $push: {
+                recommendedPlaces: user
+            }
         },
         { returnDocument: "after" } 
     );

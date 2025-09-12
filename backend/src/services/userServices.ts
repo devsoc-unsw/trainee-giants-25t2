@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "../types";
+import { User, UserPlace } from "../types";
 import argon2 from "argon2";
 import { randomUUID } from "crypto";
 
@@ -43,7 +43,8 @@ export async function createUser(email: string, name: string, password: string) 
         email: email,
         password: hashed,
         name: name,
-        foodRecommendation: [],
+        likes: [],
+        dislikes: [],
         events: [],
         eventHistory: []
     }
@@ -58,4 +59,24 @@ export async function createUser(email: string, name: string, password: string) 
 
 export async function verifyPassword(user: User, password: string) {
     return argon2.verify(user.password, password);
+}
+
+export async function getUserLikesDislikes(uid: string) {
+    const users = usersCollection();
+    const found = await users.findOne({ userId: uid });
+    if (!found) throw new Error("Failed to fetch user");
+    return { userId: found.userId, likes: found.likes, dislikes: found.dislikes };
+}
+
+export async function editUserLikesDislikes(userPlace: UserPlace) {
+    const users = usersCollection();
+    await users.updateOne(
+        { userId: userPlace.userId },
+        {
+            $addToSet: {
+                likes: { $each: userPlace.likes },
+                dislikes: { $each: userPlace.dislikes },
+            }
+        }
+    )
 }
