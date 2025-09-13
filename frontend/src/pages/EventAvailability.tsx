@@ -13,7 +13,6 @@ export function EventAvailability() {
   const event = data!;
   const [copied, setCopied] = useState(false);
 
-  console.log(event);
   const formatRange = (dates: string[]) => {
     const first = new Date(dates[0]);
     const last = new Date(dates[dates.length - 1]);

@@ -45,6 +45,7 @@ export interface Event {
     }
     availability: {
         users: string;
+        name: string;
         slots: {
             date: string;
             times: string[];

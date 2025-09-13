@@ -138,7 +138,8 @@ export async function deleteEvent(eid: string, uid:string) {
 export async function addUserAvailability(
     eid: string,
     uid: string,
-    slots: { date: string; times: string[] }[]
+    slots: { date: string; times: string[] }[],
+    name: string
 ) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
@@ -166,6 +167,7 @@ export async function addUserAvailability(
                 $push: {
                     availability: {
                         users: uid,
+                        name: name,
                         slots
                     }
                 }
