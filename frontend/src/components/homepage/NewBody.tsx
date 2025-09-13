@@ -1,14 +1,10 @@
 import { motion } from "framer-motion";
-import { RegisterButton } from "./Button";
 import { LoginRequiredModal } from "./LoginRequiredModal";
-import { useNavigate } from "react-router-dom";
-import { useLogout, useUser } from "../../hooks/useAuth";
-import { UserMenu } from "../profile/Menu";
+import { useUser } from "../../hooks/useAuth";
 import { CardCycle } from "./CardCycle";
+
 export function WhiteBody() {
-	const navigate = useNavigate();
   const { data: user } = useUser();
-  const doLogout = useLogout();
 	
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
@@ -50,18 +46,6 @@ export function WhiteBody() {
       </div>
 
       <div className="bg-white flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-6 right-10">
-					{!user ? (
-						<RegisterButton bgColor="bg-blue-500 hover:bg-blue-600" />
-					) : (
-						<UserMenu
-							name={user.name}
-							onLogout={doLogout}
-							bgColor="bg-black hover:bg-orange-500 transition-all duration-300 hover:shadow-lg"
-						/>
-					)}
-        </div>
-
         <div className="max-w-lg">
           <h1 className="text-4xl lg:text-5xl font-black text-gray-800 leading-tight mb-6">
             Discover Your Next{" "}
