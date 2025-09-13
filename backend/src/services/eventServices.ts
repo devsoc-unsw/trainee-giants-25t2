@@ -1,6 +1,7 @@
-import { Event, EventList, UserPlace } from "../types";
+import { AvailabilityBlock, Event, EventList, SlotInfo, User, UserPlace } from "../types";
 import { randomUUID } from "crypto";
 import { getDatabase } from "../db";
+import e from "express";
 
 function eventCollection() {
     return getDatabase().collection<Event>("events");
@@ -43,7 +44,7 @@ export async function createEvent(name: string, dates: Date[], startTime: number
     return event;
 }
 
-export async function editEvent(eid: string, uid:string, newDates: Date[], newName: string, newStartdate: number, newEndate: number) {
+export async function editEvent(eid: string, uid: string, newDates: Date[], newName: string, newStartdate: number, newEndate: number) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
 
@@ -66,10 +67,10 @@ export async function editEvent(eid: string, uid:string, newDates: Date[], newNa
                 },
             },
         },
-        { returnDocument: "after" } 
+        { returnDocument: "after" }
     );
 
-    return result; 
+    return result;
 }
 
 export async function editFoodPlaces(eid: string, user: UserPlace) {
@@ -81,7 +82,7 @@ export async function editFoodPlaces(eid: string, user: UserPlace) {
     }
 
     const result = await events.findOneAndUpdate(
-        { 
+        {
             eventId: eid,
         },
         {
@@ -89,10 +90,10 @@ export async function editFoodPlaces(eid: string, user: UserPlace) {
                 recommendedPlaces: user
             }
         },
-        { returnDocument: "after" } 
+        { returnDocument: "after" }
     );
 
-    return result; 
+    return result;
 }
 
 export async function listEvent(uid: string) {
@@ -103,7 +104,7 @@ export async function listEvent(uid: string) {
 }
 
 export async function generateUrl(eid: string) {
-    const events= eventCollection();
+    const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
     if (!found) {
         throw new Error("Event not found");
@@ -111,13 +112,13 @@ export async function generateUrl(eid: string) {
 
     const sid = found.shareId;
     // Add BASE_URL once deployed
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000"; 
+    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
     const shareUrl = `${baseUrl}/api/event/share/${sid}`;
 
     return shareUrl
 }
 
-export async function deleteEvent(eid: string, uid:string) {
+export async function deleteEvent(eid: string, uid: string) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
 
@@ -147,7 +148,7 @@ export async function addUserAvailability(
         throw new Error("Event not found");
     }
 
-    const existingUser = found.availability.find(a => a.users.includes(uid));
+    const existingUser = found.availability.find(a => a.users === uid);
 
     if (existingUser) {
         // update the slots for this user
@@ -190,3 +191,101 @@ export async function getAvailabilites(eid: string) {
     return found.availability;
 }
 
+export async function getResults(eid: string) {
+    const events = eventCollection();
+    const event = await events.findOne({ eventId: eid });
+    if (!event) {
+        throw new Error("Event not found");
+    }
+
+    const availability: AvailabilityBlock[] = event.availability ?? [];
+    const recommendedPlaces: UserPlace[] = event.recommendedPlaces ?? [];
+
+    // getting the names
+    const userIds = new Set<string>();
+    availability.forEach(a => a.users && userIds.add(a.users));
+    recommendedPlaces.forEach(r => r.userId && userIds.add(r.userId));
+
+    const userNames = new Set<string>();
+    if (userIds.size) {
+        const users = getDatabase().collection<User>("users");
+
+        for (const uid of userIds) {
+            const user = await users.findOne({ userId: uid });
+            if (user) userNames.add(user.name);
+        }
+    }
+
+    const getName = async (uid: string) => {
+        const users = await getDatabase().collection<User>("users");
+        const user = await users.findOne({ userId: uid });
+        if (user) {
+            return user.name;
+        } else {
+            return "Anonymous"
+        }
+    }
+
+
+    // getting the best restaraunt
+    const restrauntScores = new Map<string, number>();
+
+    for (const r of recommendedPlaces) {
+        r.likes.forEach(name => {
+            const currScore = restrauntScores.get(name) || 0;
+            restrauntScores.set(name, currScore + 1);
+        });
+        r.dislikes.forEach(name => {
+            const currScore = restrauntScores.get(name) || 0;
+            restrauntScores.set(name, currScore - 1);
+        });
+    }
+
+    let highestScore = -Infinity;
+    let topRestaraunt = "";
+
+    for (const [name, score] of restrauntScores.entries()) {
+        if (score > highestScore) {
+            highestScore = score;
+            topRestaraunt = name;
+        }
+    }
+
+
+    // avaliability slots
+    const slotKey = (date: string, time: string) => `${date}T${time}`;
+    const slotMap = new Map<string, SlotInfo>();
+
+    for (const avail of availability) {
+        const name = await getName(avail.users);
+
+        for (const slot of avail.slots) {
+            const date = slot.date;
+            for (const t of slot.times) {
+                const key = slotKey(date, t);
+                const curr = slotMap.get(key) ?? { date: date, time: t, count: 0, users: [] };
+                curr.count += 1;
+                curr.users.push(name);
+                slotMap.set(key, curr);
+            }
+        }
+    }
+
+    const timeSlots = Array.from(slotMap.values()).sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        if (a.time !== b.time) return a.time < b.time ? -1 : 1;
+        return b.count - a.count;
+    });
+
+
+    return {
+        event: {
+            eventId: eid,
+            eventName: event.eventName,
+            eventTimeSpan: event.eventTimeSpan
+        },
+        names: Array.from(userNames),
+        topRestaraunt: topRestaraunt,
+        timeSlots: timeSlots
+    };
+}

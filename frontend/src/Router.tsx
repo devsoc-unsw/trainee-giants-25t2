@@ -8,6 +8,7 @@ import { EventAvailability } from "./pages/EventAvailability";
 import { Events } from "./pages/Events";
 import { Login } from "./pages/Login";
 import { EventVote } from "./pages/EventVote";
+import EventResultsPage from "./pages/EventResultsPage";
 
 import { useUser } from "./hooks/useAuth";
 
@@ -30,6 +31,8 @@ export const Router = () => {
         <Route path="/event/:eid" element={<EventAvailability />}/>
         <Route path="/event/:eid/vote" element={<EventVote />}/>
         <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>}/>
+        <Route path="/event/:eid/availability" element={<EventAvailability />} />
+        <Route path="/event/:eid/results" element={<EventResultsPage />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>
