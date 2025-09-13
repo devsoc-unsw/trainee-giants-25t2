@@ -1,20 +1,16 @@
 import { motion } from "framer-motion";
-import { RegisterButton } from "./Button";
 import { LoginRequiredModal } from "./LoginRequiredModal";
-import { useNavigate } from "react-router-dom";
-import { useLogout, useUser } from "../../hooks/useAuth";
-import { UserMenu } from "../profile/Menu";
+import { useUser } from "../../hooks/useAuth";
 import { CardCycle } from "./CardCycle";
+
 export function WhiteBody() {
-	const navigate = useNavigate();
   const { data: user } = useUser();
-  const doLogout = useLogout();
 	
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <div className="h-screen grid grid-cols-1 lg:grid-cols-2">
       <div className="bg-gradient-to-br from-orange-200 to-orange-700 flex flex-col justify-center items-center p-6 lg:p-12 relative overflow-hidden">
 
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-8 pb-5">
           <div className="text-center mb-4">
             <div className="text-[60px] font-black text-white mb-4">
               When2
@@ -50,18 +46,6 @@ export function WhiteBody() {
       </div>
 
       <div className="bg-white flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-6 right-10">
-					{!user ? (
-						<RegisterButton bgColor="bg-blue-500 hover:bg-blue-600" />
-					) : (
-						<UserMenu
-							name={user.name}
-							onLogout={doLogout}
-							bgColor="bg-black hover:bg-orange-500 transition-all duration-300 hover:shadow-lg"
-						/>
-					)}
-        </div>
-
         <div className="max-w-lg">
           <h1 className="text-4xl lg:text-5xl font-black text-gray-800 leading-tight mb-6">
             Discover Your Next{" "}
@@ -73,7 +57,7 @@ export function WhiteBody() {
   					restaurants, and let everyone vote making dining plans simple, fast, and fun.
           </p>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 pb-5">
             <div className="w-full px-8 py-4 bg-[#E98657] text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 							<LoginRequiredModal
 								buttonText="Create an event"

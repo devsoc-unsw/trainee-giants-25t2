@@ -3,6 +3,7 @@ import { LoadingSpinner } from "../components/homepage/Loading";
 import { useUser } from "../hooks/useAuth";
 
 import { useNavigate } from "react-router-dom";
+import { HeaderBar } from "../components/HeaderBar";
 
 export function Events() {
   const navigate = useNavigate();
@@ -16,11 +17,14 @@ export function Events() {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="flex flex-col h-screen w-screen pl-64">
-          <p className="text-6xl">Events</p>
-          {events.map((event: { eventId: string, eventName: string }) => (
-            <p key={event.eventId} className="text-2xl cursor-pointer" onClick={() => navigate("/event/" + event.eventId)}>{event.eventName}</p>
-          ))}
+        <div className="flex flex-col h-screen w-screen items-center">
+          <HeaderBar />
+          <div className="w-[1280px]">
+            <p className="text-6xl text-black">Events</p>
+            {events.map((event: { eventId: string, eventName: string }) => (
+              <p key={event.eventId} className="text-2xl text-black cursor-pointer" onClick={() => navigate("/event/" + event.eventId)}>{event.eventName}</p>
+            ))}
+          </div>
         </div>
       )}
     </>

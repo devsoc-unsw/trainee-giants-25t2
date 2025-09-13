@@ -12,13 +12,15 @@ export function HeaderBar() {
   const doLogout = useLogout();
 
   return (
-    <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-[65px] px-20 relative overflow-visible z-40">
+    <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-20 relative overflow-visible z-40 pl-10">
       <div className="h-full flex items-center justify-between text-white">
-        <h1 className="text-2xl font-bold tracking-tight cursor-pointer" onClick={() => {
+        <h1 className="text-[40px] font-black text-white my-2 cursor-pointer" onClick={() => {
           navigate("/");
-          window.location.reload();
-        }}>When2Eat</h1>
-        <div className="flex items-center gap-6">
+        }}>
+          When2
+          <span className="text-orange-500">Eat</span>
+        </h1>
+        <div className="flex items-center gap-6 pr-4">
           <LoginRequiredModal
             buttonText="Create an event"
             buttonClassName="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg"
