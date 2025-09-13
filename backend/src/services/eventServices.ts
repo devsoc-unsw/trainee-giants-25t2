@@ -165,7 +165,7 @@ export async function addUserAvailability(
             {
                 $push: {
                     availability: {
-                        users: [uid],
+                        users: uid,
                         slots
                     }
                 }
@@ -173,5 +173,18 @@ export async function addUserAvailability(
         );
     }
 
-    return await events.findOne({ eventId: eid });
+    return found.availability;
+
 }
+
+export async function getAvailabilites(eid: string) {
+    const events = eventCollection();
+    const found = await events.findOne({ eventId: eid });
+
+    if (!found) {
+        throw new Error("Event not found");
+    }
+
+    return found.availability;
+}
+

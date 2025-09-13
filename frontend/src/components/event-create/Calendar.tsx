@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 interface MiniCalendarProps {
   selectedDates: Date[];
   setSelectedDates: (dates: Date[]) => void;
+  isFormValid: boolean;
 }
 
 export const MiniCalendar: React.FC<MiniCalendarProps> = ({ selectedDates, setSelectedDates }) => (

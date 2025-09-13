@@ -10,7 +10,8 @@ import {
   leave, 
   deleteevent, 
   addavailability, 
-  editFood
+  editFood,
+  getAllAvailabilites
 } from "../controllers/eventControllers";
 
 const r = Router();
@@ -119,5 +120,8 @@ r.delete("/deleteevent", deleteevent);
  *   newavailability: AvailabilitySlot[] - list of available time ranges
  */
 r.put("/availability", addavailability);
+
+
+r.get("/listavailability", getAllAvailabilites)
 
 export default r;
