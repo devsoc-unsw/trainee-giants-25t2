@@ -14,10 +14,10 @@ export function EventVote() {
 
   return (
     <>
-      <div className="h-screen w-screen">
-        <div className="flex flex-col h-full w-full bg-gradient-to-br from-orange-200 to-orange-700 gap-2">
-          <HeaderBar />
-          <div className="flex flex-col items-center h-full w-full gap-8">
+      <div className="flex flex-col h-screen w-screen bg-white">
+        <HeaderBar />
+        <div className="w-full flex relative pt-5">
+          <div className="flex flex-col items-center w-full">
             <EventVoteHeader />
             <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
             <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />

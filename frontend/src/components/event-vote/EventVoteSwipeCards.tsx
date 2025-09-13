@@ -34,21 +34,23 @@ const EventVoteSwipeCards = ({ likes, setLikes, dislikes, setDislikes }: EventVo
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-      <div className={`w-[1280px] flex flex-row justify-center ${finished ? 'gap-8' : 'gap-16'}`}>
-        <DislikedRestaurants
-          dislikes={dislikes}
-          swap={swap}
-        />
+      <div className={`flex flex-row justify-center mt-3 ${finished ? 'gap-8' : 'gap-16'}`}>
+        <div className="flex flex-col gap-8">
+          <LikedRestaurants
+            likes={likes}
+            swap={swap}
+          />
+          <DislikedRestaurants
+            dislikes={dislikes}
+            swap={swap}
+          />
+        </div>
         <SwipeCards
           places={places} // pass data down
           // likes={likes}
           setLikes={setLikes}
           setDislikes={setDislikes}
           setFinished={setFinished}
-        />
-        <LikedRestaurants
-          likes={likes}
-          swap={swap}
         />
       </div>
       )}

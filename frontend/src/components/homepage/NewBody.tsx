@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import { LoginRequiredModal } from "./LoginRequiredModal";
-import { useUser } from "../../hooks/useAuth";
+import { /*useLogout,*/ useUser } from "../../hooks/useAuth";
 import { CardCycle } from "./CardCycle";
+import { RegisterButton } from "./Button";
+// import { UserMenu } from "../profile/Menu";
 
 export function WhiteBody() {
   const { data: user } = useUser();
+  // const doLogout = useLogout();
 	
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
@@ -45,6 +48,13 @@ export function WhiteBody() {
       </div>
 
       <div className="bg-white flex flex-col justify-center p-6 lg:p-12 relative">
+        {/* <div className="absolute top-10 right-6">
+          {
+            user ?
+            <UserMenu name={user.name} onLogout={doLogout} bgColor="bg-black" />
+            : null
+          }
+        </div> */}
         <div className="max-w-lg">
           <h1 className="text-4xl lg:text-5xl font-black text-gray-800 leading-tight mb-6">
             Discover Your Next{" "}
@@ -56,13 +66,24 @@ export function WhiteBody() {
   					restaurants, and let everyone vote making dining plans simple, fast, and fun.
           </p>
 
-          <div className="flex flex-col pb-5">
+          <div className="flex flex-col gap-5">
             <div className="w-full px-4 py-4 bg-[#E98657] text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 							<LoginRequiredModal
 								buttonText="Create an event"
 								buttonClassName="px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm cursor-pointer text-lg"
 								user={user}
 							/>
+            </div>
+            <div className="flex flex-row justify-start items-center gap-2">
+              {!user ? (
+                <h4 className="text-black">
+                  Want to save your events?
+                </h4>
+              ) : null
+              }
+              {!user ? (
+                <RegisterButton bgColor="bg-black hover:bg-black/30"/>
+              ) : null }
             </div>
           </div>
         </div>

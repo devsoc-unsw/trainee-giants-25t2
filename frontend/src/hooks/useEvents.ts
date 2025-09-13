@@ -23,6 +23,11 @@ const fetchEvents = async (uid: string) => {
   return data;
 };
 
+const fetchAvailabilites = async(eid: string) => {
+  const { data } = await api.get("/events/listavailability", { params: { eid } });
+  return data;
+}
+
 export function getEvent(eid: string) {
   return useQuery({
     queryKey: ["event"],
@@ -46,3 +51,10 @@ export async function editEventUserAvailability(payload: EventEditUserAvailabili
   const { data } = await api.put("/events/availability", payload);
   return data.event;
 }
+
+export const getAllAvailabilities = (eid: string) => {
+  return useQuery({
+    queryKey: ["eventAvailabilities", eid],
+    queryFn: () => fetchAvailabilites(eid),
+  });
+};
