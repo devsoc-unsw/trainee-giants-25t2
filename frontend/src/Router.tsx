@@ -25,11 +25,11 @@ export const Router = () => {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<Register />}/>
-        <Route path="/create-event" element={<EventCreate />}/>
-        <Route path="/event/:eid" element={<Event />}/>
-        <Route path="/event/:eid/vote" element={<EventVote />}/>
-        <Route path="/events" element={<Events />}/>
+        <Route path="/register" element={<Register />} />
+        <Route path="/create-event" element={<EventCreate />} />
+        <Route path="/event/:eid/availability" element={<Event />} />
+        <Route path="/event/:eid/vote" element={<EventVote />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

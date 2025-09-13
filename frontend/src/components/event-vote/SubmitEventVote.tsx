@@ -50,13 +50,13 @@ const SubmitEventVote = ({ likes, dislikes, eid }: SubmitEventVoteProps) => {
           console.log(message);
         }
       }
-      navigate("/event/" + event.eventId);
+      navigate("/event/" + event.eventId + "/availability/");
     } catch (e: any) {
       const message = e?.response?.data?.error || e?.message || "Adding event food recommendations failed.";
       console.log(message);
     }
   }
-  
+
   return (
     <button
       onClick={submit}

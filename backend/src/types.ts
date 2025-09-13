@@ -44,7 +44,7 @@ export interface Event {
         dayEnd: number;
     }
     availability: {
-        users: string[];
+        user: string;
         slots: {
             date: string;
             times: string[];
@@ -97,3 +97,18 @@ export interface UserPlace {
 //     likes: string[];
 //     dislike: string[];
 // }
+
+export interface AvailabilityBlock {
+    user: string,
+    slots: {
+        date: string,
+        times: string[]
+    }[]
+}
+
+export interface SlotInfo {
+    date: string,
+    time: string,
+    count: number,
+    users: string[]
+}
