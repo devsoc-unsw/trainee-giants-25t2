@@ -6,7 +6,7 @@ import type { SpotData } from "../homepage/types";
 interface CardProps extends SpotData {
   index: number;
   cards: SpotData[];
-  likes: string[];
+  // likes: string[];
   setCards: Dispatch<SetStateAction<SpotData[]>>;
   setLikes: Dispatch<SetStateAction<string[]>>;
   setDislikes: Dispatch<SetStateAction<string[]>>;
@@ -21,7 +21,7 @@ export const Card: React.FC<CardProps> = ({
   // priceLevel,
   address,
   index,
-  likes,
+  // likes,
   setCards,
   setLikes,
   setDislikes,
@@ -48,10 +48,10 @@ export const Card: React.FC<CardProps> = ({
   });
 
   const handleDragEnd = () => {
-    if (likes.length >= 9) {
-      // TODO add a popup or something
-      return; 
-    }
+    // if (likes.length >= 9) {
+    //   // TODO add a popup or something
+    //   return; 
+    // }
     const swipe = x.get();
     if (Math.abs(swipe) >= 100) {
       const direction = swipe > 0 ? "like" : "dislike";

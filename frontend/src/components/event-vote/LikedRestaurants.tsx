@@ -5,7 +5,7 @@ interface LikedRestaurantsProps {
 
 export function LikedRestaurants({ likes, swap }: LikedRestaurantsProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-xl border p-6 sticky top-8 w-[300px] h-[250px] max-h-[250px] flex flex-col">
+    <div className="bg-white rounded-2xl shadow-xl border p-6 sticky top-8 w-[300px] h-[300px] max-h-[300px] flex flex-col">
       <div className="flex flex-row justify-evenly items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800 flex items-center">
           Liked Restaurants 

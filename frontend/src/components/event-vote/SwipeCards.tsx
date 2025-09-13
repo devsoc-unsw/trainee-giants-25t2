@@ -4,7 +4,7 @@ import type { SpotData } from "../homepage/types";
 
 interface SwipeCardsProps {
   places: any; // from usePlaces
-  likes: string[];
+  // likes: string[];
   setLikes: React.Dispatch<React.SetStateAction<string[]>>;
   setDislikes: React.Dispatch<React.SetStateAction<string[]>>;
   setFinished: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +12,7 @@ interface SwipeCardsProps {
 
 export const SwipeCards: React.FC<SwipeCardsProps> = ({
   places,
-  likes,
+  // likes,
   setLikes,
   setDislikes,
   setFinished,
@@ -49,7 +49,6 @@ export const SwipeCards: React.FC<SwipeCardsProps> = ({
           cards={cards}
           setCards={setCards}
           {...card}
-          likes={likes}
           setLikes={setLikes}
           setDislikes={setDislikes}
         />

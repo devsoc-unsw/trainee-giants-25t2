@@ -47,7 +47,7 @@ const EventVoteSwipeCards = ({ likes, setLikes, dislikes, setDislikes }: EventVo
         </div>
         <SwipeCards
           places={places} // pass data down
-          likes={likes}
+          // likes={likes}
           setLikes={setLikes}
           setDislikes={setDislikes}
           setFinished={setFinished}

@@ -8,7 +8,7 @@ export function RegisterButton({ bgColor = "bg-white/20 hover:bg-white/30" }: Re
   const navigate = useNavigate();
   return (
     <div
-      className={`${bgColor} hover:bg-white/30 px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg`}
+      className={`${bgColor} hover:bg-white/30 px-3 py-2 rounded-md font-medium transition-all duration-300 ease-in-out backdrop-blur-sm border border-white/30 cursor-pointer text-md`}
       onClick={() => navigate("/register")}
     >
       Register
