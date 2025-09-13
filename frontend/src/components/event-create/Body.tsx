@@ -78,7 +78,7 @@ export function WhiteBody() {
   }
 
   return (
-    <div className="flex bg-gradient-to-br from-orange-200 to-orange-700 h-screen justify-center items-center flex-col">
+    <div className="flex flex-1 bg-gradient-to-br from-orange-200 to-orange-700 h-screen justify-center items-center flex-col">
       <div className="bg-white rounded-2xl shadow-xl border w-[500px] p-6 relative max-h-[800px]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-black">New event</h2>

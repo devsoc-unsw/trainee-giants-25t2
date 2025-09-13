@@ -7,7 +7,7 @@ export function WhiteBody() {
   const { data: user } = useUser();
 	
   return (
-    <div className="h-screen grid grid-cols-1 lg:grid-cols-2">
+    <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
       <div className="bg-gradient-to-br from-orange-200 to-orange-700 flex flex-col justify-center items-center p-6 lg:p-12 relative overflow-hidden">
 
         <div className="flex flex-col items-center gap-8 pb-5">

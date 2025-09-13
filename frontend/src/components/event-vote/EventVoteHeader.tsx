@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const EventVoteHeader = () => {
   return (
     <div className="text-center">
-      <h2 className="text-4xl font-bold text-white transition-transform duration-300 pt-12 bg-b">
+      <h2 className="text-4xl font-bold text-gray-600 transition-transform duration-300 bg-b">
         Vote
       </h2>
       <motion.p
@@ -14,7 +14,7 @@ const EventVoteHeader = () => {
           repeat: Infinity,
           repeatType: "loop",
         }}
-        className="text-gray-00 font-medium pt-3"
+        className="text-white font-medium pt-3"
       >
         Swipe right to add to your list, left to pass
       </motion.p>
