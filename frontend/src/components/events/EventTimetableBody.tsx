@@ -51,7 +51,7 @@ export function EventTimetableBody({ event }: { event: Event }) {
   }
 
   return (
-    <div className="p-4 space-y-4 bg-white rounded-2xl max-w-[770px] max-h-[600px] shadow-lg flex flex-col mt-5 gap-2 items-center justify-center">
+    <div className="p-4 space-y-4 bg-white rounded-2xl max-w-[1280px] min-w-[770px] min-h-[600px] shadow-lg flex flex-col mt-5 gap-2 items-center justify-center">
       <h1 className="text-xl text-center text-black font-bold pt-3">
         Select your availabilities
       </h1>

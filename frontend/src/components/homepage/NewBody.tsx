@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { LoginRequiredModal } from "./LoginRequiredModal";
-import { /*useLogout,*/ useUser } from "../../hooks/useAuth";
+import { useLogout, useUser } from "../../hooks/useAuth";
 import { CardCycle } from "./CardCycle";
 import { RegisterButton } from "./Button";
-// import { UserMenu } from "../profile/Menu";
+import { UserMenu } from "../profile/Menu";
 
 export function WhiteBody() {
   const { data: user } = useUser();
-  // const doLogout = useLogout();
+  const doLogout = useLogout();
 	
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
@@ -48,13 +48,13 @@ export function WhiteBody() {
       </div>
 
       <div className="bg-white flex flex-col justify-center p-6 lg:p-12 relative">
-        {/* <div className="absolute top-10 right-6">
+        <div className="absolute top-6 right-6">
           {
             user ?
             <UserMenu name={user.name} onLogout={doLogout} bgColor="bg-black" />
             : null
           }
-        </div> */}
+        </div>
         <div className="max-w-lg">
           <h1 className="text-4xl lg:text-5xl font-black text-gray-800 leading-tight mb-6">
             Discover Your Next{" "}
