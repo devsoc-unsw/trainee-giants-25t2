@@ -9,6 +9,7 @@ import { Login } from "./pages/Login";
 // import type { ReactNode } from "react";
 // import { useUser } from "./hooks/useAuth";
 import { EventVote } from "./pages/EventVote";
+import EventResultsPage from "./pages/EventResultsPage";
 
 // const ProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
 //   const { data: user } = useUser();
@@ -29,6 +30,7 @@ export const Router = () => {
         <Route path="/create-event" element={<EventCreate />} />
         <Route path="/event/:eid/availability" element={<Event />} />
         <Route path="/event/:eid/vote" element={<EventVote />} />
+        <Route path="/event/:eid/results" element={<EventResultsPage />} />
         <Route path="/events" element={<Events />} />
         <Route path="/login" element={<Login />} />
       </Routes>

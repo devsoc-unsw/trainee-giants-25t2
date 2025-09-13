@@ -123,7 +123,7 @@ export async function addavailability(req: Request, res: Response) {
 
 export async function results(req: Request, res: Response) {
     try {
-        const { eid } = req.body;
+        const { eid } = req.query;
         if (!eid || typeof eid !== "string") {
             return res.status(400).json({ error: "no event exists" });
         }

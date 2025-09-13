@@ -269,6 +269,11 @@ export async function getResults(eid: string) {
 
 
     return {
+        event: {
+            eventId: eid,
+            eventName: event.eventName,
+            eventTimeSpan: event.eventTimeSpan
+        },
         names: Array.from(userNames),
         topRestaraunt: topRestaraunt,
         timeSlots: timeSlots

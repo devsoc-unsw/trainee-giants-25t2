@@ -127,6 +127,7 @@ r.put("/availability", addavailability);
  *
  * params:
  *  eid (string) - eventId
+ * as a query
  */
 r.get("/results", results);
 
