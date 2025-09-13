@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Event } from "../../types/event.types";
 import { EventTimetable } from "./EventTimetable";
 import { useUser } from "../../hooks/useAuth";
 import { getCookie, setCookie } from "../../cookie/cookie";
 import { editEventUserAvailability, getAllAvailabilities } from "../../hooks/useEvents";
-import { UserAvailability } from "./AvailabilityList";
+import { useNavigate } from "react-router-dom";
 
 export function EventTimetableBody({ event }: { event: Event }) {
   const [availabilities, setAvailabilities] = useState<{ date: string; times: string[] }[]>([]);
@@ -23,32 +23,7 @@ export function EventTimetableBody({ event }: { event: Event }) {
     setAvailabilities(payload);
   };
 
-  useEffect(() => {
-    if (!allAvailabilities?.avai) return;
-
-    let uid: string;
-    if (user) {
-      uid = user.userId;
-    } else {
-      uid = getCookie()!;
-    }
-
-    if (!uid) {
-      uid = self.crypto.randomUUID();
-      setCookie(uid, expirationDate);
-    }
-
-    console.log(uid)
-    console.log(allAvailabilities.avai)
-    const existingUser = allAvailabilities.avai.find((u: any) => u.users === uid);
-    console.log(existingUser)
-    if (!existingUser || !existingUser.name) {
-      setShowNamePopup(true);
-    } else {
-      setName(existingUser.name);
-    }
-  }, [allAvailabilities, user]);
-
+  const navigate = useNavigate();
   const handleDone = async () => {
     try {
       setSubmitting(true);
@@ -76,6 +51,8 @@ export function EventTimetableBody({ event }: { event: Event }) {
         console.log(message);
         setError(message);
       }
+
+      navigate(`/event/${eid}/results`)
     } catch {
       setError("Failed to save availability");
     } finally {
@@ -99,18 +76,7 @@ export function EventTimetableBody({ event }: { event: Event }) {
           startHour={parseInt(event.eventTimeSpan.dayStart)}
           endHour={parseInt(event.eventTimeSpan.dayEnd)}
           onChange={updateAvailabilities}
-          allAvailabilities={allAvailabilities?.avai}
         />
-        <div className="flex flex-col">
-          <p className="text-lg font-extrabold text-black mb-3">
-            Responses
-          </p>
-          {allAvailabilities?.avai?.map((u: any, idx: number) => (
-            
-            <UserAvailability key={idx} user={u} />
-          ))}
-        </div>
-        
       </div>
 
       <button
