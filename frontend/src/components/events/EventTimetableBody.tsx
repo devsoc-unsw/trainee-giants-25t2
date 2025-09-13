@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Event } from "../../types/event.types";
-import { EventTimetable } from "../events/EventTimetable";
+import { EventTimetable } from "./EventTimetable";
 import { useUser } from "../../hooks/useAuth";
 import { getCookie } from "../../cookie/cookie";
 import { editEventUserAvailability } from "../../hooks/useEvents";
@@ -37,7 +37,7 @@ export function EventTimetableBody({ event }: { event: Event }) {
       try {
         await editEventUserAvailability(payload);
       } catch (e: any) {
-        const message = e?.response?.data?.error || e?.message || "Adding event food recommendations failed.";
+        const message = e?.response?.data?.error || e?.message || "Adding event user availabilities failed.";
         console.log(message);
       }
     } catch (e) {
@@ -48,8 +48,8 @@ export function EventTimetableBody({ event }: { event: Event }) {
   }
 
   return (
-    <div className="mx-auto p-4 space-y-4 bg-white">
-      <h1 className="text-xl text-center text-black font-bold">Select your availabilities</h1>
+    <div className="mx-40 p-4 space-y-4 bg-white rounded-2xl">
+      <h1 className="text-xl text-center text-black font-bold pt-3">Select your availabilities</h1>
 
       <EventTimetable
         dates={event.eventTimeSpan.dates}
@@ -58,11 +58,11 @@ export function EventTimetableBody({ event }: { event: Event }) {
         onChange={updateAvailabilities}
       />
 
-      <div className="flex flex-col items-end gap-3 bg-gray pr-5">
+      <div className="flex flex-col items-center bg-gray pt-1">
         <button
           onClick={handleDone}
           disabled={submitting || availabilities.length === 0}
-          className="px-5 py-2 rounded bg-black text-whte disabled:opacity-50"
+          className="px-5 py-2 bg-black text-white font-bold rounded-lg text-lg disabled:opacity-50 disabled:pointer-events-none hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer"
         >
           {submitting ? "Saving..." : "Done"}
         </button>

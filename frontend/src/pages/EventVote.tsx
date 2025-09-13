@@ -11,7 +11,7 @@ export function EventVote() {
   const [dislikes, setDislikes] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col h-screen w-screen">
+    <div className="flex flex-col h-screen w-screen bg-gradient-to-br from-orange-200 to-orange-700">
       <div className="w-full flex relative">
         <div className="flex flex-col items-center w-full gap-16">
           <EventVoteHeader />
