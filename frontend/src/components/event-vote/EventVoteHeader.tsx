@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const EventVoteHeader = () => {
   return (
     <div className="text-center">
-      <h2 className="text-4xl font-bold text-orange-500 transition-transform duration-300 pt-12 bg-b">
+      <h2 className="text-4xl font-bold text-white transition-transform duration-300 pt-12 bg-b">
         Vote
       </h2>
       <motion.p

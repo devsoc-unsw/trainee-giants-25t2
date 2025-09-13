@@ -17,7 +17,7 @@ export function EventAvailability() {
       ) : (
         <div className="flex flex-col h-screen w-screen bg-gradient-to-br from-orange-200 to-orange-700 overflow-hidden">
           <HeaderBar />
-          <p className="text-6xl font-bold text-orange-500 text-center py-11">{event.eventName}</p>
+          <p className="text-5xl font-bold text-orange-500 text-center py-9">{event.eventName}</p>
           <EventTimetableBody event={event} />
         </div>
       )}
