@@ -123,30 +123,27 @@ export function EventTimetableBody({ event }: { event: Event }) {
 
       {error && availabilities.length > 0 && <div className="text-red-600 text-sm">{error}</div>}
 
-      {/* Name modal popup */}
       {showNamePopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-4 w-96">
-            <h2 className="text-lg font-bold">Enter your name</h2>
+            <h2 className="text-lg text-black font-bold">Enter your name</h2>
             <input
               type="text"
               placeholder="Your name"
               className="border p-2 rounded"
               onChange={(e) => setName(e.target.value)}
             />
-            <button
+            <div
               className="bg-black text-white px-4 py-2 rounded hover:bg-orange-500"
               onClick={() => {
                 if (name && name.trim() !== "") {
                   setShowNamePopup(false);
                   setError(null);
-                } else {
-                  setError("Name is required");
                 }
               }}
             >
               Save
-            </button>
+            </div>
           </div>
         </div>
       )}
