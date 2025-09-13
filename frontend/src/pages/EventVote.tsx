@@ -12,10 +12,10 @@ export function EventVote() {
   const [dislikes, setDislikes] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-gradient-to-br from-orange-200 to-orange-700">
+    <div className="flex flex-col h-screen w-screen bg-white">
       <HeaderBar />
-      <div className="w-full flex relative pt-7">
-        <div className="flex flex-col items-center w-full gap-11">
+      <div className="w-full flex relative pt-5">
+        <div className="flex flex-col items-center w-full">
           <EventVoteHeader />
           <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
           <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />
