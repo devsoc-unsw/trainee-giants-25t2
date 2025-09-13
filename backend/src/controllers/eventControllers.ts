@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addUserAvailability, createEvent, deleteEvent, editEvent, editFoodPlaces, findEventByEventId, generateUrl, getAvailabilites, listEvent } from "../services/eventServices";
+import { addUserAvailability, createEvent, deleteEvent, editEvent, editFoodPlaces, findEventByEventId, generateUrl, getAvailabilites, getResults, listEvent } from "../services/eventServices";
 
 export async function create(req: Request, res: Response) {
     try {
@@ -28,7 +28,7 @@ export async function event(req: Request, res: Response) {
 
 export async function edit(req: Request, res: Response) {
     try {
-        const { eid, uid, newName, newDates, newStartdate, newEnddate } = req.body; 
+        const { eid, uid, newName, newDates, newStartdate, newEnddate } = req.body;
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
@@ -42,7 +42,7 @@ export async function edit(req: Request, res: Response) {
 
 export async function editFood(req: Request, res: Response) {
     try {
-        const { eid, user } = req.body; 
+        const { eid, user } = req.body;
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
@@ -70,7 +70,7 @@ export async function list(req: Request, res: Response) {
 
 export async function share(req: Request, res: Response) {
     try {
-        const { eid } = req.body; 
+        const { eid } = req.body;
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
@@ -89,17 +89,17 @@ export async function join(req: Request, res: Response) {
 
 export async function leave(req: Request, res: Response) {
     // also leave this for later
-   return;
+    return;
 }
 
 export async function deleteevent(req: Request, res: Response) {
     try {
-        const { eid, uid } = req.body; 
+        const { eid, uid } = req.body;
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
         const msg = await deleteEvent(eid, uid);
-        res.json({msg});
+        res.json({ msg });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Faied to delete" });
@@ -108,11 +108,11 @@ export async function deleteevent(req: Request, res: Response) {
 
 export async function addavailability(req: Request, res: Response) {
     try {
-        const { eid, uid, slots } = req.body; 
+        const { eid, uid, slots, name } = req.body; 
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
-        const avai = await addUserAvailability(eid, uid, slots);
+        const avai = await addUserAvailability(eid, uid, slots, name);
         res.json({avai});
     } catch (err) {
         console.error(err);
@@ -131,5 +131,20 @@ export async function getAllAvailabilites(req: Request, res: Response) {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Faied to delete" });
+
+    }
+}
+
+export async function results(req: Request, res: Response) {
+    try {
+        const { eid } = req.query;
+        if (!eid || typeof eid !== "string") {
+            return res.status(400).json({ error: "no event exists" });
+        }
+        const data = await getResults(eid);
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Faied to compute results" });
     }
 }
