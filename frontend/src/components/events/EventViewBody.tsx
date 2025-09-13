@@ -4,6 +4,7 @@ import { EventTimetable } from "../events/EventTimetable";
 import { useUser } from "../../hooks/useAuth";
 import { getCookie } from "../../cookie/cookie";
 import { editEventUserAvailability } from "../../hooks/useEvents";
+import { useNavigate } from "react-router-dom";
 
 export function EventTimetableBody({ event }: { event: Event }) {
   // Stores timetable state info
@@ -11,6 +12,8 @@ export function EventTimetableBody({ event }: { event: Event }) {
   const [availabilities, setAvailabilities] = useState<{ date: string; times: string[] }[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const updateAvailabilities = (payload: { date: string; times: string[] }[]) => {
     // Payload is all selected 30-min slots after update
@@ -40,11 +43,15 @@ export function EventTimetableBody({ event }: { event: Event }) {
         const message = e?.response?.data?.error || e?.message || "Adding event food recommendations failed.";
         console.log(message);
       }
+
+      navigate(`/event/${eid}/results`)
+
     } catch (e) {
       setError("Failed to save availability");
     } finally {
       setSubmitting(false);
     }
+
   }
 
   return (
