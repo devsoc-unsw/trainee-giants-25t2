@@ -44,7 +44,7 @@ export interface Event {
         dayEnd: number;
     }
     availability: {
-        users: string[];
+        users: string;
         slots: {
             date: string;
             times: string[];

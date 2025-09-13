@@ -1,14 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface TimetableProps {
   dates: Date[];
   startHour: number; // 24H time
   endHour: number;
   onChange?: (slots: { date: string; times: string[] }[]) => void;
+  allAvailabilities?: { uid: string; slots: { date: string; times: string[] }[] }[];
 }
 
 // default hours being 9AM - 6PM if not given
-export function EventTimetable({ dates, startHour, endHour, onChange }: TimetableProps) {
+export function EventTimetable({ dates, startHour, endHour, onChange, allAvailabilities}: TimetableProps) {
   const timeSlots: { time: string; hasLabel: boolean }[] = [];
   // 30-min time slots
   for (let h = startHour; h <= endHour; h++) {
@@ -92,9 +93,35 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
     onChange(slots);
   };
 
+  const slotCounts = new Map<string, number>();
+
+  useEffect(() => {
+    if (!allAvailabilities) return;
+    const newSelected = new Set<string>();
+
+    allAvailabilities.forEach(user => {
+      user.slots.forEach(slot => {
+        slot.times.forEach(time => {
+          const dateIdx = dates.findIndex(d => new Date(d).toISOString().slice(0,10) === slot.date);
+          if (dateIdx !== -1) {
+            const slotIdx = timeSlots.findIndex(ts => ts.time === time);
+            if (slotIdx !== -1) {
+              const key = `${dateIdx}:${slotIdx}`;
+              newSelected.add(key);
+            }
+          }
+        });
+      });
+    });
+
+    setSelected(newSelected);
+  }, [allAvailabilities]);
+
+  const maxCount = Math.max(...Array.from(slotCounts.values()), 1);
+
   return (
     <div
-      className="rounded-md select-none w-full h-full overflow-auto"
+      className="rounded-md select-none w-[80%] h-full overflow-auto"
       onMouseUp={endDrag}
       onMouseLeave={endDrag}
     >
@@ -135,20 +162,26 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
           {/* Grid cells */}
           {dates.map((_, dateIdx) => {
             const cell = `${dateIdx}:${slotIdx}`;
+            const count = slotCounts.get(cell) || 0;
+
+            const intensity = Math.min(100 + Math.floor((count / maxCount) * 500), 600);
+
             const isSelected = selected.has(cell);
-            return (
-              <div
-                key={cell}
-                className={[
-                  "h-7 border cursor-pointer",
-                  isSelected ? "bg-emerald-200 border-emerald-400" : "bg-white border-gray-200"
+              return (
+                <div
+                  key={cell}
+                  className={[
+                    "h-7 border cursor-pointer",
+                    isSelected
+                      ? "bg-emerald-500 border-emerald-700"
+                      : `bg-emerald-${intensity} border-emerald-${Math.min(intensity + 200, 800)}`
                   ].join(" ")}
-                onMouseDown={(e) => startDrag(dateIdx, slotIdx, e)}
-                onMouseEnter={() => dragOverCell(dateIdx, slotIdx)}
-                title={time}
-              />
-            );
-          })}
+                  onMouseDown={(e) => startDrag(dateIdx, slotIdx, e)}
+                  onMouseEnter={() => dragOverCell(dateIdx, slotIdx)}
+                  title={time}
+                />
+              );
+            })}
         </div>
       ))}
     </div>
