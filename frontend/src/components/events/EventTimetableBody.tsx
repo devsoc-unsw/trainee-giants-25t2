@@ -48,9 +48,10 @@ export function EventTimetableBody({ event }: { event: Event }) {
   }
 
   return (
-    <div className="mx-40 p-4 space-y-4 bg-white rounded-2xl">
-      <h1 className="text-xl text-center text-black font-bold pt-3">Select your availabilities</h1>
-
+    <div className="mx-40 p-4 space-y-4 bg-white rounded-2xl max-w-[700px] h-[600px] shadow-lg flex flex-col">
+      <h1 className="text-xl text-center text-black font-bold pt-3">
+        Select your availabilities
+      </h1>
       <EventTimetable
         dates={event.eventTimeSpan.dates}
         startHour={parseInt(event.eventTimeSpan.dayStart)}

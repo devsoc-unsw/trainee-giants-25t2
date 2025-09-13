@@ -17,7 +17,7 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
   }
 
   const columnTemplate = {
-    gridTemplateColumns: `max-content repeat(${dates.length}, minmax(120px, 1fr))`
+    gridTemplateColumns: `3.5rem repeat(${dates.length}, minmax(0, 1fr))`
   };
 
   const formatDate = (d: Date) => {
@@ -94,7 +94,7 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
 
   return (
     <div
-      className="rounded-md select-none overflow-auto"
+      className="rounded-md select-none w-full h-full overflow-auto"
       onMouseUp={endDrag}
       onMouseLeave={endDrag}
     >
