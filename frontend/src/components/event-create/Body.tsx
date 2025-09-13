@@ -29,7 +29,7 @@ export function WhiteBody() {
   const [startTime, setStartTime] = useState("9:00 am");
   const [endTime, setEndTime] = useState("5:00 pm");
   const [specificDates, setSpecificDates] = useState<Date[]>([]);
-  const isFormValid = eventName.trim().length > 0;
+  const isFormValid =  eventName.trim().length > 0 && specificDates.length > 0;
 
   const { data: user } = useUser();
 
@@ -78,7 +78,7 @@ export function WhiteBody() {
   }
 
   return (
-    <div className="flex bg-white h-screen justify-center items-center flex-col">
+    <div className="flex flex-1 bg-white h-screen justify-center items-center flex-col">
       <div className="bg-white rounded-2xl shadow-xl border w-[500px] p-6 relative max-h-[800px]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-black">New event</h2>
@@ -107,6 +107,7 @@ export function WhiteBody() {
             key={dateMode} 
             selectedDates={specificDates} 
             setSelectedDates={setSpecificDates} 
+            isFormValid={isFormValid}
           />
         </AnimatePresence>
 
