@@ -9,7 +9,6 @@ export function WhiteBody() {
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
       <div className="bg-gradient-to-br from-orange-200 to-orange-700 flex flex-col justify-center items-center p-6 lg:p-12 relative overflow-hidden">
-
         <div className="flex flex-col items-center gap-8 pb-5">
           <div className="text-center mb-4">
             <div className="text-[60px] font-black text-white mb-4">
@@ -49,7 +48,7 @@ export function WhiteBody() {
         <div className="max-w-lg">
           <h1 className="text-4xl lg:text-5xl font-black text-gray-800 leading-tight mb-6">
             Discover Your Next{" "}
-            <span className="text-[#E98657]">Favorite Restaurant</span>
+            <span className="text-[#E98657]">Favourite Restaurant</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
@@ -57,8 +56,8 @@ export function WhiteBody() {
   					restaurants, and let everyone vote making dining plans simple, fast, and fun.
           </p>
 
-          <div className="flex flex-col gap-6 pb-5">
-            <div className="w-full px-8 py-4 bg-[#E98657] text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex flex-col pb-5">
+            <div className="w-full px-4 py-4 bg-[#E98657] text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
 							<LoginRequiredModal
 								buttonText="Create an event"
 								buttonClassName="px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm cursor-pointer text-lg"

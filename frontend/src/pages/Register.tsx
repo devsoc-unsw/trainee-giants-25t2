@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../hooks/useAuth";
+import { Footer } from "../components/Footer";
+import { HeaderBar } from "../components/HeaderBar";
 
 export function Register() {
   const [email, setEmail] = useState("");
@@ -31,74 +33,78 @@ export function Register() {
   };
 
   return (
-    <div className="h-screen w-screen bg-white flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border">
-        <div className="text-center mb-8">
-          <h1 className="text-orange-500 text-2xl font-bold ml-3 self-center">When2Eat</h1>
-          <h2 className="text-2xl font-semibold text-gray-800">Register an account</h2>
-        </div>
+    <>
+      <HeaderBar />
+      <div className="h-screen w-screen bg-white flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border">
+          <div className="text-center mb-8">
+            <h1 className="text-orange-500 text-2xl font-bold ml-3 self-center">When2Eat</h1>
+            <h2 className="text-2xl font-semibold text-gray-800">Register an account</h2>
+          </div>
 
-        <div className="mb-6">
-          {err && (
-            <div className="p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
-              {err}
+          <div className="mb-6">
+            {err && (
+              <div className="p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
+                {err}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
+              />
             </div>
-          )}
-        </div>
 
-        <div className="space-y-6">
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
-            />
-          </div>
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
+              />
+            </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-500 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-black"
-            />
-          </div>
-
-          <button
-            onClick={handleRegister}
-            disabled={loading}
-            className="w-full bg-black text-white py-3 rounded-lg font-medium disabled:opacity-50"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </div>
-
-        <div className="flex flex-row items-center justify-center gap-2 pt-2">
-          <p className="text-center text-gray-600 text-sm">
-            Already have an account?{" "}
-          </p>
-           <div
-              className="text-orange-500 font-medium underline cursor-pointer hover:text-orange-600 "
-              onClick={() => navigate("/login")}
+            <button
+              onClick={handleRegister}
+              disabled={loading}
+              className="w-full bg-black text-white py-3 rounded-lg font-medium disabled:opacity-50"
             >
-              Login
+              {loading ? "Registering..." : "Register"}
+            </button>
           </div>
-        </div>
 
-        <div className="mt-6 text-center">
-          <button
-            className="text-white font-medium"
-            onClick={() => navigate('/')}
-          >
-            ← Back to Home
-          </button>
+          <div className="flex flex-row items-center justify-center gap-2 pt-2">
+            <p className="text-center text-gray-600 text-sm">
+              Already have an account?{" "}
+            </p>
+            <div
+                className="text-orange-500 font-medium underline cursor-pointer hover:text-orange-600 "
+                onClick={() => navigate("/login")}
+              >
+                Login
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <button
+              className="text-white font-medium"
+              onClick={() => navigate('/')}
+            >
+              ← Back to Home
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

@@ -29,18 +29,18 @@ export function UserMenu({ name, onLogout, bgColor = "bg-white/20 hover:bg-white
     <div className="relative" ref={menuRef}>
       <div
         onClick={() => setOpen((s) => !s)}
-        className={`${bgColor} px-4 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-lg`}
+        className={`${bgColor} px-3 py-2 rounded-md font-medium transition-all backdrop-blur-sm border border-white/30 cursor-pointer text-md`}
       >
         {capital(name)}
       </div>
 
       {open && (
         <div className="absolute right-0 top-full mt-2 w-44 rounded-md bg-white text-black shadow-lg border border-black/20 z-50">
-          <h4 className="flex flex-row items-end text-md px-4 py-2 font-semibold">
+          <h4 className="flex flex-row items-end text-md px-3 py-2 font-semibold">
             {capital(name)}
           </h4>
           <div
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
             onClick={() => {
               setOpen(false);
               navigate("/events");
@@ -49,7 +49,7 @@ export function UserMenu({ name, onLogout, bgColor = "bg-white/20 hover:bg-white
             Events
           </div>
           <div
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
             onClick={() => {
               setOpen(false);
               onLogout();

@@ -60,7 +60,7 @@ const SubmitEventVote = ({ likes, dislikes, eid }: SubmitEventVoteProps) => {
   return (
     <div
       onClick={submit}
-      className="px-8 py-3 bg-black text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+      className="px-8 py-3 bg-black text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer mb-6"
     >
       Next
     </div>
