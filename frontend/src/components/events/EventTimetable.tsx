@@ -94,7 +94,7 @@ export function EventTimetable({ dates, startHour, endHour, onChange }: Timetabl
 
   return (
     <div
-      className="rounded-md select-none"
+      className="rounded-md select-none overflow-auto"
       onMouseUp={endDrag}
       onMouseLeave={endDrag}
     >

@@ -12,9 +12,9 @@ export function HeaderBar() {
   const doLogout = useLogout();
 
   return (
-    <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-24 relative overflow-visible z-40 pl-10">
+    <header className="bg-gradient-to-r from-[#F4975C] to-[#999999] w-full h-20 relative overflow-visible z-40 pl-10">
       <div className="h-full flex items-center justify-between text-white">
-        <h1 className="text-[60px] font-black text-white my-2 cursor-pointer" onClick={() => {
+        <h1 className="text-[40px] font-black text-white my-2 cursor-pointer" onClick={() => {
           navigate("/");
         }}>
           When2
