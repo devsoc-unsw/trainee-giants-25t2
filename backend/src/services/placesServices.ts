@@ -49,7 +49,7 @@ function buildPlaceDoc(
 export const getPlaces = async (
 	lat: string | number,
 	lon: string | number,
-	radius = 5000,
+	radius = 2000,
 	placeType = "restaurant"
 ): Promise<Place[]> => {
 

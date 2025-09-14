@@ -25,8 +25,8 @@ const EventVoteSwipeCards = ({ likes, setLikes, dislikes, setDislikes }: EventVo
     }
   }
   
-  const lat = -33.8688;
-  const lon = 151.2093;
+  const lat = -33.9173;
+  const lon = 151.2313;
 
   const { data: places, isLoading } = usePlaces(lat, lon);
   return (
