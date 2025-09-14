@@ -108,11 +108,11 @@ export async function deleteevent(req: Request, res: Response) {
 
 export async function addavailability(req: Request, res: Response) {
     try {
-        const { eid, uid, slots, name } = req.body; 
+        const { eid, newUser, slots } = req.body; 
         if (!eid) {
             return res.status(400).json({ error: "no event exists" });
         }
-        const avai = await addUserAvailability(eid, uid, slots, name);
+        const avai = await addUserAvailability(eid, newUser, slots);
         res.json({avai});
     } catch (err) {
         console.error(err);

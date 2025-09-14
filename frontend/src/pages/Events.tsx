@@ -24,7 +24,7 @@ export function Events() {
             <div className="w-[1280px]">
               <p className="text-4xl font-bold text-black">Events</p>
               {events.map((event: { eventId: string; eventName: string; }) => (
-                <p key={event.eventId} className="text-2xl text-black cursor-pointer" onClick={() => navigate("/event/" + event.eventId)}>{event.eventName}</p>
+                <p key={event.eventId} className="text-2xl text-black cursor-pointer" onClick={() => navigate("/event/" + event.eventId + "/results")}>{event.eventName}</p>
               ))}
             </div>
           </div>

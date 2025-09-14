@@ -14,14 +14,12 @@ export function EventVote() {
 
   return (
     <>
-      <div className="flex flex-col h-screen w-screen bg-white">
-        <HeaderBar />
-        <div className="w-full flex relative pt-5">
-          <div className="flex flex-col items-center w-full">
-            <EventVoteHeader />
-            <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
-            <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />
-          </div>
+      <div className="h-screen w-screen">
+        <div className="w-full h-full flex flex-col items-center">
+          <HeaderBar />
+          <EventVoteHeader />
+          <EventVoteSwipeCards likes={likes} setLikes={setLikes} dislikes={dislikes} setDislikes={setDislikes} />
+          <SubmitEventVote likes={likes} dislikes={dislikes} eid={eid} />
         </div>
       </div>
       <Footer />

@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../lib/axios";
 import type { Results, TimeSlot } from "../types/event.types";
+import { Footer } from "../components/Footer";
+import { HeaderBar } from "../components/HeaderBar";
 
 function HeatmapTimetable({
     dates,
@@ -112,7 +114,8 @@ export default function EventResultsPage() {
         if (!eid) return;
         (async () => {
             try {
-                const { data } = await api.get<Results>("/events/results", { params: { eid }, withCredentials: true });
+                let { data } = await api.get<Results>("/events/results", { params: { eid }, withCredentials: true });
+                console.log(data);
                 setData({
                     ...data,
                     event: {
@@ -135,73 +138,77 @@ export default function EventResultsPage() {
     const { event, timeSlots, topRestaraunt, names } = data;
 
     return (
-        <div className="flex flex-col h-screen w-screen bg-gradient-to-r from-[#F4975C] to-[#999999]">
-            <div className="w-full flex relative">
-                <div className="bg-white rounded-2xl shadow-xl p-6 w-full flex flex-col gap-6">
-                    <h1 className="text-2xl font-bold text-center text-gray-900">{event.eventName} — Results</h1>
-                    <div className="grid md:grid-cols-12 gap-6">
-                        {/* Heatmap Section */}
-                        <div className="md:col-span-8 bg-white rounded-lg">
-                            <div className="overflow-x-auto">
-                                <HeatmapTimetable
-                                    dates={event.eventTimeSpan.dates}
-                                    startHour={parseInt(event.eventTimeSpan.dayStart)}
-                                    endHour={parseInt(event.eventTimeSpan.dayEnd)}
-                                    slots={timeSlots}
-                                    onHover={setHoverInfo}
-                                />
+        <>
+            <HeaderBar />
+            <div className="flex flex-col h-full w-screen bg-gradient-to-r from-[#F4975C] to-[#999999]">
+                <div className="w-full h-screen flex relative">
+                    <div className="bg-white shadow-xl p-6 w-full flex flex-col gap-6">
+                        <h1 className="text-2xl font-bold text-center text-gray-900">{event.eventName} — Results</h1>
+                        <div className="grid md:grid-cols-12 gap-6">
+                            {/* Heatmap Section */}
+                            <div className="md:col-span-8 bg-white rounded-lg">
+                                <div className="overflow-x-auto">
+                                    <HeatmapTimetable
+                                        dates={event.eventTimeSpan.dates}
+                                        startHour={parseInt(event.eventTimeSpan.dayStart)}
+                                        endHour={parseInt(event.eventTimeSpan.dayEnd)}
+                                        slots={timeSlots}
+                                        onHover={setHoverInfo}
+                                    />
+                                </div>
                             </div>
+
+                            {/* Participants Section */}
+                            <aside className="md:col-span-4 bg-gray-50 rounded-lg p-4 shadow-sm">
+                                <h2 className="text-lg font-semibold text-gray-900 mb-2">Who's in this slot?</h2>
+                                <div className="min-h-40">
+                                    {hoverInfo ? (
+                                        <>
+                                            <div className="text-sm text-gray-600 mb-2">
+                                                {hoverInfo.date} — {hoverInfo.time}
+                                            </div>
+                                            {hoverInfo.users.length ? (
+                                                <ul className="space-y-1">
+                                                    {hoverInfo.users.map((u) => (
+                                                        <li key={u} className="text-black text-sm">{u}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <div className="text-sm text-gray-400">No one selected this time.</div>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <div className="text-sm text-gray-400">Hover a cell to see participants.</div>
+                                    )}
+                                </div>
+                            </aside>
                         </div>
 
-                        {/* Participants Section */}
-                        <aside className="md:col-span-4 bg-gray-50 rounded-lg p-4 shadow-sm">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-2">Who's in this slot?</h2>
-                            <div className="min-h-40">
-                                {hoverInfo ? (
-                                    <>
-                                        <div className="text-sm text-gray-600 mb-2">
-                                            {hoverInfo.date} — {hoverInfo.time}
+                        {/* Top restaurant */}
+                        <section className="bg-gray-50 rounded-lg p-4">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-2">Top Restaurant</h2>
+                            {topRestaraunt
+                                ? <p className="text-gray-800 font-medium">{topRestaraunt}</p>
+                                : <p className="text-gray-500">No votes yet</p>}
+                        </section>
+
+                        {/* Participants section (main list) */}
+                        <section className="bg-gray-50 rounded-lg p-4">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-2">Participants</h2>
+                            <div className="flex flex-wrap gap-2">
+                                {names.length
+                                    ? names.map((n) => (
+                                        <div key={n} className="text-sm text-gray-900">
+                                            {n}
                                         </div>
-                                        {hoverInfo.users.length ? (
-                                            <ul className="space-y-1">
-                                                {hoverInfo.users.map((u) => (
-                                                    <li key={u} className="text-black text-sm">{u}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <div className="text-sm text-gray-400">No one selected this time.</div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="text-sm text-gray-400">Hover a cell to see participants.</div>
-                                )}
+                                    ))
+                                    : <p className="text-gray-500 text-sm">No submissions yet</p>}
                             </div>
-                        </aside>
+                        </section>
                     </div>
-
-                    {/* Top restaurant */}
-                    <section className="bg-gray-50 rounded-lg p-4">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-2">Top Restaurant</h2>
-                        {topRestaraunt
-                            ? <p className="text-gray-800 font-medium">{topRestaraunt}</p>
-                            : <p className="text-gray-500">No votes yet</p>}
-                    </section>
-
-                    {/* Participants section (main list) */}
-                    <section className="bg-gray-50 rounded-lg p-4">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-2">Participants</h2>
-                        <div className="flex flex-wrap gap-2">
-                            {names.length
-                                ? names.map((n) => (
-                                    <div key={n} className="text-sm text-gray-900">
-                                        {n}
-                                    </div>
-                                ))
-                                : <p className="text-gray-500 text-sm">No submissions yet</p>}
-                        </div>
-                    </section>
                 </div>
+                <Footer />
             </div>
-        </div>
+        </>
     );
 }

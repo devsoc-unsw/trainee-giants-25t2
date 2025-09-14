@@ -2,9 +2,10 @@ import { useState } from "react";
 import type { Event } from "../../types/event.types";
 import { EventTimetable } from "./EventTimetable";
 import { useUser } from "../../hooks/useAuth";
-import { getCookie, setCookie } from "../../cookie/cookie";
+import { getCookieName, getCookieUUID } from "../../cookie/cookie";
 import { editEventUserAvailability, getAllAvailabilities } from "../../hooks/useEvents";
 import { useNavigate } from "react-router-dom";
+import type { User } from "../../types/user.types";
 
 export function EventTimetableBody({ event }: { event: Event }) {
   const [availabilities, setAvailabilities] = useState<{ date: string; times: string[] }[]>([]);
@@ -33,16 +34,33 @@ export function EventTimetableBody({ event }: { event: Event }) {
       if (user) {
         uid = user.userId;
       } else {
-        uid = getCookie()!;
+        uid = getCookieUUID()!;
       }
 
-      if (!uid) {
-        uid = self.crypto.randomUUID();
-        setCookie(uid, expirationDate);
+      // will do handling in /vote
+      // if (!uid) {
+      //   uid = self.crypto.randomUUID();
+      //   setCookie(uid, expirationDate);
+      // }
+
+
+      let newUser: User;
+      if (user) {
+        newUser = {
+          userId: uid,
+          email: user.email,
+          name: user.name,
+        }
+      } else {
+        newUser = {
+          userId: uid,
+          email: "",
+          name: getCookieName()!,
+        }
       }
 
       const eid = event.eventId;
-      const payload: any = { eid, uid, slots: availabilities, name };
+      const payload: any = { eid, newUser, slots: availabilities };
 
       try {
         await editEventUserAvailability(payload);

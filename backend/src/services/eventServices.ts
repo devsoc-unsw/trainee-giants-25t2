@@ -23,12 +23,12 @@ export async function findEventByEventId(eid: string) {
 //     return event.findOne({ userId: id });
 // }
 
-export async function createEvent(name: string, dates: Date[], startTime: number, endTime: number, owner: string) {
+export async function createEvent(name: string, dates: Date[], startTime: number, endTime: number, owner: User) {
     const events = eventCollection();
 
     const event: Event = {
         eventId: randomUUID(),
-        userId: owner,
+        userId: owner.userId,
         eventName: name,
         eventTimeSpan: {
             dates,
@@ -138,9 +138,8 @@ export async function deleteEvent(eid: string, uid: string) {
 
 export async function addUserAvailability(
     eid: string,
-    uid: string,
+    newUser: User,
     slots: { date: string; times: string[] }[],
-    name: string
 ) {
     const events = eventCollection();
     const found = await events.findOne({ eventId: eid });
@@ -148,12 +147,12 @@ export async function addUserAvailability(
         throw new Error("Event not found");
     }
 
-    const existingUser = found.availability.find(a => a.users === uid);
+    const existingUser = found.availability.find(a => a.users === newUser.userId);
 
     if (existingUser) {
         // update the slots for this user
         await events.updateOne(
-            { eventId: eid, "availability.users": uid },
+            { eventId: eid, "availability.users": newUser.userId },
             {
                 $set: {
                     "availability.$.slots": slots
@@ -167,8 +166,8 @@ export async function addUserAvailability(
             {
                 $push: {
                     availability: {
-                        users: uid,
-                        name: name,
+                        users: newUser.userId,
+                        name: newUser.name,
                         slots
                     }
                 }
@@ -214,18 +213,21 @@ export async function getResults(eid: string) {
             const user = await users.findOne({ userId: uid });
             if (user) userNames.add(user.name);
         }
-    }
 
-    const getName = async (uid: string) => {
-        const users = await getDatabase().collection<User>("users");
-        const user = await users.findOne({ userId: uid });
-        if (user) {
-            return user.name;
-        } else {
-            return "Anonymous"
+        for (const avail of availability) {
+            userNames.add(avail.name);
         }
     }
 
+    // const getName = async (uid: string) => {
+    //     const users = await getDatabase().collection<User>("users");
+    //     const user = await users.findOne({ userId: uid });
+    //     if (user) {
+    //         return user.name;
+    //     } else {
+    //         return "SDF"
+    //     }
+    // }
 
     // getting the best restaraunt
     const restrauntScores = new Map<string, number>();
@@ -257,7 +259,8 @@ export async function getResults(eid: string) {
     const slotMap = new Map<string, SlotInfo>();
 
     for (const avail of availability) {
-        const name = await getName(avail.users);
+        // const name = await getName(avail.users);
+        const name = avail.name;
 
         for (const slot of avail.slots) {
             const date = slot.date;

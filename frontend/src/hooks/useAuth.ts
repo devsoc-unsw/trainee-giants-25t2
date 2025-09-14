@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios"
 import type { UserPlace } from "../types/user.types";
-import { deleteCookie, getCookie } from "../cookie/cookie";
+import { deleteCookie, getCookieUUID } from "../cookie/cookie";
 
 export type UserPayload = {
     email: string;
@@ -10,7 +10,7 @@ export type UserPayload = {
 
 async function fetchUser() {
     const { data } = await api.get("/auth/whoami");
-    if (getCookie()) deleteCookie(getCookie()!);
+    if (getCookieUUID()) deleteCookie();
     return data.user as { userId: string; email: string; name: string };
 }
 
