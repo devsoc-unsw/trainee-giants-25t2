@@ -12,13 +12,15 @@ import { useUser } from "../../hooks/useAuth";
 
 import api from "../../lib/axios";
 import { setCookie } from "../../cookie/cookie";
+import type { User } from "../../types/user.types";
+import InputNamePopup from "../event-vote/InputNamePopup";
 
 interface EventPayload {
   name: string;
   startTime: number;
   endTime: number;
   dates: Date[];
-  owner : string;
+  owner: User;
 };
 
 export function WhiteBody() {
@@ -30,10 +32,12 @@ export function WhiteBody() {
   const [endTime, setEndTime] = useState("5:00 pm");
   const [specificDates, setSpecificDates] = useState<Date[]>([]);
   const isFormValid =  eventName.trim().length > 0 && specificDates.length > 0;
+  
+  const [popup, setPopup] = useState<boolean>(false);
 
   const { data: user } = useUser();
 
-  const createEvent = async () => {
+  const createEvent = async (name?: string) => {
     const sortedDates = specificDates.sort((a, b) => a.getTime() - b.getTime());
 
     let uid: string;
@@ -41,7 +45,22 @@ export function WhiteBody() {
       uid = user.userId;
     } else {
       uid = self.crypto.randomUUID();
-      setCookie(uid, sortedDates[sortedDates.length - 1]);
+    }
+
+    let owner: User;
+    if (user) {
+      owner = {
+        userId: uid,
+        email: user.email,
+        name: user.name,
+      }
+    } else {
+      owner = {
+        userId: uid,
+        email: "",
+        name: name!,
+      }
+      setCookie(uid, name!, sortedDates[sortedDates.length - 1]);
     }
 
     let startTimeNum: number = parseInt(startTime);
@@ -63,9 +82,9 @@ export function WhiteBody() {
       startTime: startTimeNum,
       endTime: endTimeNum,
       dates: sortedDates,
-      owner: uid,
+      owner
     }
-      
+
     try {
       const { data } = await api.post("/events/create", payload);
       // redirect to voting page instead of event page
@@ -78,47 +97,66 @@ export function WhiteBody() {
   }
 
   return (
-    <div className="flex flex-1 bg-white h-screen justify-center items-center flex-col">
-      <div className="bg-white rounded-2xl shadow-xl border w-[500px] p-6 relative max-h-[800px]">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-black">New event</h2>
-          <h4
-            className="text-md text-black cursor-pointer"
-            onClick={() => navigate('/')}
-          >Back</h4>
+    <>
+      <div className="flex flex-1 bg-white h-screen justify-center items-center flex-col">
+        <div className="bg-white rounded-2xl shadow-xl border w-[500px] p-6 relative max-h-[800px]">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-black">New event</h2>
+            <h4
+              className="text-md text-black cursor-pointer"
+              onClick={() => navigate('/')}
+            >Back</h4>
+          </div>
+
+          <EventNameInput value={eventName} onChange={setEventName} isValid={isFormValid} />
+
+          <DateModeToggle dateMode={dateMode} setDateMode={setDateMode} />
+
+          {dateMode === "dateTime" && (
+            <TimeSelector
+              startTime={startTime}
+              endTime={endTime}
+              setStartTime={setStartTime}
+              setEndTime={setEndTime}
+            />
+          )}
+
+          <label className="text-black font-medium mb-1">What dates might work?</label>
+          <AnimatePresence mode="wait">
+            <MiniCalendar 
+              key={dateMode} 
+              selectedDates={specificDates} 
+              setSelectedDates={setSpecificDates} 
+              isFormValid={isFormValid}
+            />
+          </AnimatePresence>
+
+          <CreateButton 
+            disabled={!isFormValid} 
+            onClick={() => {
+              if (user) createEvent();
+              else setPopup(true);
+            }} 
+          />
+
+          {!isFormValid && (
+            <span className="text-red-500 text-sm mt-1 disable">
+              Please fix form errors before continuing
+            </span>
+          )}
         </div>
-
-        <EventNameInput value={eventName} onChange={setEventName} isValid={isFormValid} />
-
-        <DateModeToggle dateMode={dateMode} setDateMode={setDateMode} />
-
-        {dateMode === "dateTime" && (
-          <TimeSelector
-            startTime={startTime}
-            endTime={endTime}
-            setStartTime={setStartTime}
-            setEndTime={setEndTime}
-          />
-        )}
-
-        <label className="text-black font-medium mb-1">What dates might work?</label>
-        <AnimatePresence mode="wait">
-          <MiniCalendar 
-            key={dateMode} 
-            selectedDates={specificDates} 
-            setSelectedDates={setSpecificDates} 
-            isFormValid={isFormValid}
-          />
-        </AnimatePresence>
-
-        <CreateButton disabled={!isFormValid} onClick={() => createEvent()} />
-
-        {!isFormValid && (
-          <span className="text-red-500 text-sm mt-1 disable">
-            Please fix form errors before continuing
-          </span>
-        )}
       </div>
-    </div>
+      {popup && (
+        <InputNamePopup 
+          submit={async (name: string) => {
+            setPopup(false);
+            await createEvent(name);
+          }}
+          onClose={() => {
+            setPopup(false);
+          }}
+        />
+      )}
+    </>
   );
 }

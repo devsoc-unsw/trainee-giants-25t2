@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useEffect, type ReactNode } from "react";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 
 import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
@@ -11,6 +11,7 @@ import { EventVote } from "./pages/EventVote";
 import EventResultsPage from "./pages/EventResultsPage";
 
 import { useUser } from "./hooks/useAuth";
+import { getCookieUUID } from "./cookie/cookie";
 
 const ProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
   const navigate = useNavigate();
@@ -20,6 +21,30 @@ const ProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
   // Render the children (protected content) if authenticated
   return children;
 };
+
+const EventProtectedRoute: React.FC<{children?: ReactNode}> = ({ children }) => {
+  const navigate = useNavigate();
+  const { eid } = useParams<{ eid: string }>();
+  const { data: user, isLoading } = useUser();
+
+  console.log(user);
+  console.log(getCookieUUID());
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!user && !getCookieUUID()) {
+      navigate(`/event/${eid}/vote`);
+    }
+  }, [user, eid, navigate, isLoading]);
+
+  if (!user && !getCookieUUID()) {
+    return;
+  }
+
+  // Render the children (protected content) if authenticated
+  return children;
+};
+
 
 export const Router = () => {
   return (
@@ -31,8 +56,8 @@ export const Router = () => {
         <Route path="/event/:eid" element={<EventAvailability />}/>
         <Route path="/event/:eid/vote" element={<EventVote />}/>
         <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>}/>
-        <Route path="/event/:eid/availability" element={<EventAvailability />} />
-        <Route path="/event/:eid/results" element={<EventResultsPage />} />
+        <Route path="/event/:eid/availability" element={<EventProtectedRoute><EventAvailability /></EventProtectedRoute>} />
+        <Route path="/event/:eid/results" element={<EventProtectedRoute><EventResultsPage /></EventProtectedRoute>} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

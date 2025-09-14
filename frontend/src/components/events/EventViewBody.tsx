@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Event } from "../../types/event.types";
 import { EventTimetable } from "../events/EventTimetable";
 import { useUser } from "../../hooks/useAuth";
-import { getCookie } from "../../cookie/cookie";
+import { getCookieUUID } from "../../cookie/cookie";
 import { editEventUserAvailability } from "../../hooks/useEvents";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +32,7 @@ export function EventTimetableBody({ event }: { event: Event }) {
       if (user) {
         uid = user.userId;
       } else {
-        uid = getCookie()!;
+        uid = getCookieUUID()!;
       }
 
       const eid = event.eventId;

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
-import type { UserPlace } from "../types/user.types";
+import type { User, UserPlace } from "../types/user.types";
 
 interface EventEditFoodPayload {
   eid: string;
@@ -9,7 +9,7 @@ interface EventEditFoodPayload {
 
 interface EventEditUserAvailabilityPayload {
   eid: string;
-  uid: string;
+  newUser: User;
   slots: { date: string; times: string[] }[];
 }
 

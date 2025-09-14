@@ -5,7 +5,7 @@ export interface User {
 }
 
 export interface UserPlace {
-  userId: string,
+  user: User,
   likes: string[],
   dislikes: string[],
 };

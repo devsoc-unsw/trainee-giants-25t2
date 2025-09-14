@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { editUserFood, useUser } from "../../hooks/useAuth";
 import { editEventFood } from "../../hooks/useEvents";
-import type { UserPlace } from "../../types/user.types";
-import { getCookie } from "../../cookie/cookie";
+import type { User, UserPlace } from "../../types/user.types";
+import { getCookieUUID, setCookie } from "../../cookie/cookie";
+import InputNamePopup from "./InputNamePopup";
+import { useState } from "react";
 
 interface SubmitEventVoteProps {
   likes: string[];
@@ -19,16 +21,39 @@ const SubmitEventVote = ({ likes, dislikes, eid }: SubmitEventVoteProps) => {
   const navigate = useNavigate();
   const { data: user } = useUser();
 
-  const submit = async () => {
+  const [popup, setPopup] = useState<boolean>(false);
+
+  const submit = async (name?: string) => {
     let uid: string;
     if (user) {
       uid = user.userId;
     } else {
-      uid = getCookie()!;
+      if (!getCookieUUID()) {
+        uid = self.crypto.randomUUID();
+        const date = new Date();
+        date.setDate(date.getDate() + 7);
+        setCookie(uid, name!, date);
+      } else {
+        uid = getCookieUUID()!;
+      }
+    }
+    let userPayload: User;
+    if (user) {
+      userPayload = {
+        userId: user.userId,
+        email: user.email,
+        name: user.name,
+      }
+    } else {
+      userPayload = {
+        userId: uid,
+        email: "",
+        name: name!,
+      }
     }
 
     const userPlace: UserPlace = {
-      userId: uid,
+      user: userPayload,
       likes,
       dislikes,
     }
@@ -58,12 +83,28 @@ const SubmitEventVote = ({ likes, dislikes, eid }: SubmitEventVoteProps) => {
   }
 
   return (
-    <div
-      onClick={submit}
-      className="px-8 py-3 bg-orange-500 text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer my-8"
-    >
-      Next
-    </div>
+    <>
+      <div
+        onClick={() => {
+          if (user || getCookieUUID()) submit();
+          else setPopup(true);
+        }}
+        className="px-8 py-3 bg-orange-500 text-white font-bold rounded-lg text-lg hover:bg-orange-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer my-8"
+      >
+        Next
+      </div>
+      {popup && (
+        <InputNamePopup 
+          submit={async (name: string) => {
+            setPopup(false);
+            await submit(name);
+          }}
+          onClose={() => {
+            setPopup(false);
+          }}
+        />
+      )}
+    </>
   );
 }
 
